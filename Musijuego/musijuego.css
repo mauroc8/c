@@ -1,0 +1,73 @@
+body {
+	background-color: #eeeed9;
+	color: #353535;
+	font-family: 'PT mono', monospace;
+	line-height: 1.5em;
+	margin: 70px auto;
+	max-width: 500px;
+}
+
+
+a {
+	color: #34b;
+	border-bottom: 1px solid #34b;
+	padding-bottom: 3px;
+	text-decoration: none;
+}
+
+a:hover {
+	cursor: pointer;
+	color: #234;
+	border-color: #234;
+}
+
+a:active {
+	color: #000;
+	border-color: #000;
+}
+
+.correcto {
+	color: #292 !important;
+	border-color: #292 !important;
+}
+
+.incorrecto {
+	color: #e22 !important;
+	border-color: #e22 !important;
+}
+
+.inactivo {
+	color: #888 !important;
+	border-color: #888 !important;
+}
+
+.inactivo:hover {
+	cursor: no-drop;
+	color: #888;
+	border-color: #888;
+}
+
+#texto {
+	clear: both;
+	color: #555;
+	font-style: italic;
+}
+
+#respuestas a {
+	padding: 1px 6px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	line-height: 1.4em;
+	border: 1px #666 solid;
+	color: #333;
+	float:left;
+}
+
+#respuestas a:hover {
+	background-color: #ffc;
+}
+
+#respuestas a:active {
+	color: black;
+	border-color: black;
+}

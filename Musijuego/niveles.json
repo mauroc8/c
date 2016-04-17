@@ -1,0 +1,560 @@
+[
+	{
+		"título": "¿Mayor o menor? (escalas)",
+		"tipo": "escalas",
+		"respuestas": "mayor, menor",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Terceras",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "¿Mayor o menor? (arpegios)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Terceras (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "¿Pentatónica mayor o menor?",
+		"tipo": "escalas",
+		"respuestas": "pentatónica mayor, pentatónica menor",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Terceras y cuarta justa",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "¿Mayor o menor? (acordes)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Escalas menores",
+		"tipo": "escalas",
+		"respuestas": "menor antigua, menor armónica, menor melódica",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "¿Mayor o menor? (arpegio descendente)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Escala mayor o menor (descendente)",
+		"tipo": "escalas",
+		"respuestas": "mayor, menor",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Terceras (intervalo armónico)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "¿Mayor, menor, aumentado o disminuído? (arpegios)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, aumentado, disminuído",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Terceras y cuarta justa",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Escalas menores descendentes",
+		"tipo": "escalas",
+		"respuestas": "menor antigua, menor armónica, menor bachiana",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "¿Mayor, menor, aumentado o disminuído? (descendente)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, aumentado, disminuído",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Terceras y cuarta justa (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Modos mayores",
+		"tipo": "escalas",
+		"respuestas": "modo jónico, modo lidio, modo mixolidio",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "¿Mayor, menor, aumentado o disminuído? (acordes)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, aumentado, disminuído",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Terceras y cuarta justa (int. armónico)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Modos menores",
+		"tipo": "escalas",
+		"respuestas": "modo eólico, modo dórico, modo frigio",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "¿Mayor, menor, aumentado o disminuído? (acordes) (II)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, aumentado, disminuído",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "¿Menor o mayor? (segunda inversión)",
+		"tipo": "acordes",
+		"respuestas": "mayor 2°i, menor 2°i",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Terceras y cuarta justa (int. armónico) (II)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Modos mayores (descendente)",
+		"tipo": "escalas",
+		"respuestas": "modo jónico, modo lidio, modo mixolidio",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "¿Menor o mayor? (primera inversión)",
+		"tipo": "acordes",
+		"respuestas": "mayor 1°i, menor 1°i",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Cuarta y quinta justa",
+		"tipo": "intervalos",
+		"respuestas": "4J, 5J",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Modos menores (descendente)",
+		"tipo": "escalas",
+		"respuestas": "modo eólico, modo dórico, modo frigio",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Acordes tríada con inversiones",
+		"tipo": "acordes",
+		"respuestas": "mayor 1°i, mayor 2°i, menor 1°i, menor 2°i",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Terceras y cuarta justa (int. armónico) (III)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Todos los modos",
+		"tipo": "escalas",
+		"respuestas": "modo jónico, modo lidio, modo mixolidio, modo eólico, modo dórico, modo frigio",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Acordes tríada con inversiones (descendente)",
+		"tipo": "acordes",
+		"respuestas": "mayor 1°i, mayor 2°i, menor 1°i, menor 2°i",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Terceras, cuartas y quinta justa",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J, 4A, 5J",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Todos los modos (descendente)",
+		"tipo": "escalas",
+		"respuestas": "modo jónico, modo lidio, modo mixolidio, modo eólico, modo dórico, modo frigio",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Acordes tríada con inversiones (descendente) (II)",
+		"tipo": "acordes",
+		"respuestas": "mayor 1°i, mayor 2°i, menor 1°i, menor 2°i",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Segundas",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Acordes tétrada",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Todos los modos (descendente) (II)",
+		"tipo": "escalas",
+		"respuestas": "modo jónico, modo lidio, modo mixolidio, modo eólico, modo dórico, modo frigio",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Terceras, cuartas y quinta justa (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J, 4A, 5J",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Acordes tétrada (descendente)",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Segundas (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Hexatónica, mayor artificial y modo locrio",
+		"tipo": "escalas",
+		"respuestas": "hexatónica, mayor artificial, modo locrio",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Segundas, terceras, cuartas y quinta justa",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 4A, 5J",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Acordes tríada con inversiones (acordes <i>plaqué</i>)",
+		"tipo": "acordes",
+		"respuestas": "mayor 1°i, mayor 2°i, menor 1°i, menor 2°i",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Disminuído de cuatro sonídos, semi-disminuído y aumentado con séptima",
+		"tipo": "acordes",
+		"respuestas": "disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Hexatónica, mayor artificial y modo locrio (descendente)",
+		"tipo": "escalas",
+		"respuestas": "hexatónica, mayor artificial, modo locrio",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Acordes tétrada (<i>plaqué</i>)",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Segundas (intervalo armónico)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Acordes tríada con inversiones (acordes <i>plaqué</i>) (II)",
+		"tipo": "acordes",
+		"respuestas": "mayor 1°i, mayor 2°i, menor 1°i, menor 2°i",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Repaso de escalas",
+		"tipo": "escalas",
+		"respuestas": "mayor, mayor artificial, menor antigua, menor armónica, menor bachiana, hexatónica",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Disminuído de cuatro sonídos, semi-disminuído y aumentado con séptima (descendente)",
+		"tipo": "acordes",
+		"respuestas": "disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Segundas, terceras, cuartas y quinta justa (int. armónico)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 4A, 5J",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Acordes tétrada (<i>plaqué</i>) (II)",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Escalas simétricas: hexatónica, cromática, aumentada y disminuída",
+		"tipo": "escalas",
+		"respuestas": "hexatónica, cromática, aumentada, disminuída",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Terceras y sextas",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 6m, 6M",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Disminuído de cuatro sonídos, semi-disminuído y aumentado con séptima (<i>plaqué</i>)",
+		"tipo": "acordes",
+		"respuestas": "disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Escalas simétricas descendentes",
+		"tipo": "escalas",
+		"respuestas": "hexatónica, cromática, aumentada, disminuída",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Todos los acordes tétrada",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Terceras y sextas (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 6m, 6M",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Todos los acordes tétrada (descendente)",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Sextas y séptimas",
+		"tipo": "intervalos",
+		"respuestas": "6m, 6M, 7m, 7M",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Todos los acordes tétrada (descendente) (II)",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Terceras y sextas (armónico)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 6m, 6M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Repaso de escalas y modos",
+		"tipo": "escalas",
+		"respuestas": "mayor, mayor artificial, menor antigua, menor armónica, menor bachiana, pentatónica mayor, pentatónica menor, modo dórico, modo frigio, modo lidio, modo mixolidio, modo locrio, hexatónica, cromática, aumentada, disminuída",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Sextas y séptimas (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "6m, 6M, 7m, 7M",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Todos los acordes tétrada (<i>plaqué</i>)",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Repaso de escalas y modos (descendente)",
+		"tipo": "escalas",
+		"respuestas": "mayor, mayor artificial, menor antigua, menor armónica, menor bachiana, pentatónica mayor, pentatónica menor, modo dórico, modo frigio, modo lidio, modo mixolidio, modo locrio, hexatónica, cromática, aumentada, disminuída",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Intervalos consonantes",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J, 5J, 6m, 6M, 8J",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Todos los acordes tétrada (<i>plaqué</i>) (II)",
+		"tipo": "acordes",
+		"respuestas": "mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Sextas y séptimas (armónico)",
+		"tipo": "intervalos",
+		"respuestas": "6m, 6M, 7m, 7M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Repaso de escalas y modos (descendente) (II)",
+		"tipo": "escalas",
+		"respuestas": "mayor, mayor artificial, menor antigua, menor armónica, menor bachiana, pentatónica mayor, pentatónica menor, modo dórico, modo frigio, modo lidio, modo mixolidio, modo locrio, hexatónica, cromática, aumentada, disminuída",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Intervalos disonantes",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 4A, 7m, 7M",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Repaso de acordes",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, mayor 1°i, mayor 2°i, menor 1°i, menor 2°i, mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Intervalos consonantes (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J, 5J, 6m, 6M, 8J",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Séptimas y novenas",
+		"tipo": "intervalos",
+		"respuestas": "7m, 7M, 9m, 9M",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Intervalos disonantes (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 4A, 7m, 7M",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Repaso de acordes (descendentes)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, mayor 1°i, mayor 2°i, menor 1°i, menor 2°i, mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Séptimas y novenas (descendente)",
+		"tipo": "intervalos",
+		"respuestas": "7m, 7M, 9m, 9M",
+		"reproducir": "descendente"
+	},
+	{
+		"título": "Intervalos hasta la octava",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 5J, 6m, 6M, 8J",
+		"reproducir": "ascendente"
+	},
+	{
+		"título": "Intervalos consonantes (armónico)",
+		"tipo": "intervalos",
+		"respuestas": "3m, 3M, 4J, 5J, 6m, 6M, 8J",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Repaso de acordes (<i>plaqué</i>)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, mayor 1°i, mayor 2°i, menor 1°i, menor 2°i, mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Séptimas y novenas (int. armónico)",
+		"tipo": "intervalos",
+		"respuestas": "7m, 7M, 9m, 9M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Intervalos disonantes (armónico)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 4A, 7m, 7M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Todos los acordes (<i>plaqué</i>) (2/5)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, mayor 1°i, mayor 2°i, menor 1°i, menor 2°i, mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Intervalos hasta la octava (descendentes)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 5J, 6m, 6M, 8J",
+		"reproducir": "descendentes"
+	},
+	{
+		"título": "Intervalos hasta la octava (armónicos)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 5J, 6m, 6M, 8J",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Intervalos hasta la novena (armónicos)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 5J, 6m, 6M, 8J, 9m, 9M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Todos los acordes (<i>plaqué</i>) (3/5)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, mayor 1°i, mayor 2°i, menor 1°i, menor 2°i, mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Intervalos hasta la novena (armónicos) (2/5)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 5J, 6m, 6M, 8J, 9m, 9M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Intervalos hasta la novena (armónicos) (3/5)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 5J, 6m, 6M, 8J, 9m, 9M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Todos los acordes (<i>plaqué</i>) (4/5)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, mayor 1°i, mayor 2°i, menor 1°i, menor 2°i, mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Intervalos hasta la novena (armónicos) (4/5)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 5J, 6m, 6M, 8J, 9m, 9M",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Todos los acordes (<i>plaqué</i>) (último)",
+		"tipo": "acordes",
+		"respuestas": "mayor, menor, mayor 1°i, mayor 2°i, menor 1°i, menor 2°i, mayor con séptima menor, mayor con séptima mayor, menor con séptima menor, menor con séptima mayor, disminuído (7°d), semi-disminuído, aumentado (7°M)",
+		"reproducir": "armónico"
+	},
+	{
+		"título": "Intervalos hasta la novena (armónicos) (último)",
+		"tipo": "intervalos",
+		"respuestas": "2m, 2M, 3m, 3M, 4J, 5J, 6m, 6M, 8J, 9m, 9M",
+		"reproducir": "armónico"
+	}
+]
