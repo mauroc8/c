@@ -1,0 +1,33 @@
+<meta charset="UTF-8">
+<title>HTML editor</title>
+<link rel="stylesheet" href="reset.css">
+<link rel="stylesheet" href="wysiwyghtml.css">
+<script src="pop.js"></script>
+<link rel="stylesheet" href="pop-classic.css">
+<link href='https://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
+<body>
+
+<div id="edit-head">
+	<h2>&lt;head&gt;</h2>
+	<div class="title" id="file-tools">
+		<input id="filename" spellcheck=false value="New File.html">
+	</div>
+	<textarea spellcheck=false></textarea>
+</div>
+<div id="edit-body">
+	<h2>&lt;body&gt;</h2>
+	<div class='title'>HTML editor. <a>Toggle.</a></div>
+	<textarea spellcheck=false></textarea>
+</div>
+<div id="edit-wysiwyg">
+	<h2>&lt;body&gt;</h2>
+	<div class='title'>WYSIWYG editor. <a>Toggle.</a></div>
+	<div id="toolbar"></div>
+	<div id="iframe-container">
+		<iframe src="about:blank"></iframe>
+	</div>
+</div>
+<div id="status-bar"></div>
+
+<script src="wysiwyghtml-extras.js"></script>
+<script src="wysiwyghtml.js"></script>
