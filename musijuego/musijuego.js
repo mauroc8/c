@@ -172,6 +172,7 @@ var Juego = {
 		$('#container').removeChild($('#container').firstChild);
 		$('#container').appendChild(Juego.div_menú);
 		$('#continuar', Juego.div_menú).textContent = "Continuar ("+Juego.puntaje()+")";
+		$('#continuar', Juego.div_menú).classList.toggle('inactivo', !Juego.puntaje());
 	},
 	"cargarNiveles": function() {
 		$('#container').removeChild($('#container').firstChild);
@@ -261,7 +262,8 @@ var Juego = {
 
 //Botones de menú:
 $('#continuar', Juego.div_menú).addEventListener('click', function() {
-	Juego.cargarNiveles();
+	if(Juego.puntaje())
+		Juego.cargarNiveles();
 });
 $('#empezar', Juego.div_menú).addEventListener('click', function() {
 	Juego.puntaje(0);
@@ -288,11 +290,12 @@ $('#volver-ganar', Juego.div_ganar).addEventListener('click', function() {
 });
 
 //Iniciales
-$('#continuar', Juego.div_menú).addEventListener('click', function _click() {
-	this.removeEventListener('click', _click);
-	Juego.puntaje(Juego.puntaje());
-	Juego.cargarNivel();
-});
+if(Juego.puntaje())
+	$('#continuar', Juego.div_menú).addEventListener('click', function _click() {
+		this.removeEventListener('click', _click);
+		Juego.puntaje(Juego.puntaje());
+		Juego.cargarNivel();
+	});
 
 function iniciar() {
 	Juego.cargarMenú();

@@ -1,10 +1,9 @@
-var $ = (q, c) => (c||document).querySelector(q),
-		$$ = (q, c) => (c||document).querySelectorAll(q),
-		arr = obj => Array.prototype.slice.call(obj);
-NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+function $(q, c) {return (c||document).querySelector(q);}
+function $$(q, c) {for(var n=(c||document).querySelectorAll(q),a=[],i=n.length;i;a[--i]=n[i]);return a;}
 
-for(var textarea of $$('textarea'))
+$$('textarea').forEach(function(textarea) {
 	textarea.addEventListener('keydown', textarea_keydown_event_to_handle_TAB_and_RETURN_keys);
+});
 
 var ta_head = $('#edit-head textarea'),
 	ta_body = $('#edit-body textarea'),
@@ -446,7 +445,7 @@ function inspectTag() {
 		var pop = Pop('Inspecting &lt;'+tag.tagName.toLowerCase()+'&gt;', '',
 				['Cancel', 'Accept'], function(pop) {
 					if(pop.status<=0) return;
-					Array.prototype.forEach.call($$('input', pop.content), function(input) {
+					$$('input', pop.content).forEach(function(input) {
 						if(input.value)
 							tag.setAttribute(input.getAttribute('data-attr'), input.value);
 						else
@@ -458,7 +457,7 @@ function inspectTag() {
 		var content = '<p><i>'+tag.toString()+'</i></p><p><b>Attributes:</b></p>';
 		if(tag.attributes.length===0)
 			content += '<p><small>This element has no attributes.</small></p>';
-		arr(tag.attributes).forEach(function(attr) {
+		Array.from(tag.attributes).forEach(function(attr) {
 			content += '<p><i>' + attr.name+':</i> <input type="text" value="'+attr.value+'" data-attr="'+attr.name+'" /></p>';
 		});
 		content += '<a><small>Add attribute.<small></a>';
