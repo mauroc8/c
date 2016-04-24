@@ -137,6 +137,15 @@ toolgroups.push([
 			});
 		}
 	}, {
+		title: "Insert HTML",
+		src: "inserthtml.png",
+		command: function() {
+			Pop.form('Insert HTML', '<p>HTML to insert:</p><textarea cols="20" rows="10"></textarea>', function(r) {
+				if(r===false) return;
+				cmd('inserthtml', r);
+			});
+		}
+	}, {
 		title: "Insert n-dash (Ctrl+N)",
 		src: "ndash.png",
 		command: "inserthtml",
@@ -520,6 +529,7 @@ function importFile() {
 }
 
 function exportFile() {
+	statusBar('Exporting to file...');
 	Pop.sync(function *() {
 		var repeat = true;
 		while(repeat) {
@@ -536,13 +546,16 @@ function exportFile() {
 		filename = filename.replace(/\.html$/, '') + '.html';
 		$('#filename').value = filename;
 		downloadTextFile('text/html', filename, getFullHTML());
+		statusBar('Successfully exported to '+filename, true);
 	});
 }
 
 function getFullHTML() {
 	return '<!DOCTYPE html>\n'+
+			'<html>\n'
 			'<head>\n'+ta_head.value+'\n</head>\n'+
-			'<body>\n'+(edit_mode==='html'?ta_body.value:iframe.contentDocument.body.innerHTML)+'\n</body>';
+			'<body>\n'+(edit_mode==='html'?ta_body.value:iframe.contentDocument.body.innerHTML)+'\n</body>\n'+
+			'</html>';
 }
 
 var fileTools = [];
