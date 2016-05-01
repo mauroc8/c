@@ -20,10 +20,10 @@ var PianoScript = {
 				}, delay*i));
 			});
 		} else {
-			for(var nota of arr) {
+			for(var nota of arr)
 				PianoScript.notas[nota].currentTime = 0;
+			for(var nota of arr)
 				PianoScript.notas[nota].play();
-			}
 		}
 	}, "parar": function() {
 		PianoScript.tos.forEach(to => clearTimeout(to));
@@ -230,12 +230,13 @@ var Juego = {
 		//
 		if(Juego.reproducirAlComenzar) {
 			Juego.repeticiones--;
+			Juego.actualizarRepetir();
 			Juego.cambiarEstado("Reproduciendo...", "");
 			nivel.reproducir();
 		} else {
 			Juego.cambiarEstado("...","");
+			Juego.actualizarRepetir();
 		}
-		Juego.actualizarRepetir();
 	},
 	"toCambiarEstado": null,
 	"cambiarEstado": function(str, clase) {
