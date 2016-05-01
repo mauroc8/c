@@ -53,7 +53,7 @@ a:active {
 	font-style: italic;
 }
 
-#respuestas a {
+.Botones a {
 	padding: 1px 6px;
 	margin-right: 5px;
 	margin-bottom: 5px;
@@ -63,11 +63,11 @@ a:active {
 	float:left;
 }
 
-#respuestas a:hover {
+.Botones a:hover {
 	background-color: #ffc;
 }
 
-#respuestas a:active {
+.Botones a:active {
 	color: black;
 	border-color: black;
 }

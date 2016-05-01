@@ -552,7 +552,7 @@ function exportFile() {
 
 function getFullHTML() {
 	return '<!DOCTYPE html>\n'+
-			'<html>\n'
+			'<html>\n'+
 			'<head>\n'+ta_head.value+'\n</head>\n'+
 			'<body>\n'+(edit_mode==='html'?ta_body.value:iframe.contentDocument.body.innerHTML)+'\n</body>\n'+
 			'</html>';
@@ -621,3 +621,5 @@ var shortcuts = (function() {
 })();
 
 iframe.contentDocument.addEventListener('keydown', shortcuts);
+
+cmd('insertbronreturn', true);
