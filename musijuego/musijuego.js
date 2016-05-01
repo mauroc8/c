@@ -20,10 +20,10 @@ var PianoScript = {
 				}, delay*i));
 			});
 		} else {
-			arr.forEach(function(nota) {
+			for(var nota of arr) {
 				PianoScript.notas[nota].currentTime = 0;
 				PianoScript.notas[nota].play();
-			});
+			}
 		}
 	}, "parar": function() {
 		PianoScript.tos.forEach(to => clearTimeout(to));
