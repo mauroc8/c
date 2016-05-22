@@ -101,8 +101,8 @@ function Nivel(obj) {
 			return count;
 		});
 		//notas===[0,3,7]
-		var max = _cantidadNotas - Math.max(...notas);
-		var rand = Math.floor(Math.random()*max);
+		var max = _cantidadNotas - Math.max(...notas),
+			rand = Math.floor(Math.random()*max);
 		notas = notas.map(nota => nota+rand);
 		//notas===[3,6,10]
 		if(obj.reproducir === 'descendente')
@@ -113,9 +113,9 @@ function Nivel(obj) {
 
 Nivel.prototype.reproducir = function() {
 	if(this.obj.reproducir==='armónico')
-		PianoScript.reproducir(this.notas);
+		return PianoScript.reproducir(this.notas);
 	else
-		PianoScript.reproducir(this.notas, _delayReproducción);
+		return PianoScript.reproducir(this.notas, _delayReproducción);
 }
 
 // dos o tres funciones ayudantes:
@@ -259,7 +259,7 @@ var Juego = {
 			Juego.repeticiones--;
 			Juego.actualizarRepetir();
 			Juego.cambiarEstado("Reproduciendo...", "");
-			nivel.reproducir();
+			return nivel.reproducir();
 		} else {
 			Juego.cambiarEstado("...","");
 			Juego.actualizarRepetir();

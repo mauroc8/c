@@ -1,0 +1,39 @@
+<meta charset="UTF-8">
+<title>Notas</title>
+<button id="dictar" disabled>Dictar notas</button>
+<button id="ver" disabled>Ver respuesta</button>
+<button id="nuevo" disabled>Nuevo dictado</button>
+<p id="respuesta">Cargando...</p>
+<script src="recursos.js"></script>
+<script>
+
+PianoScript.onload = function() {
+	$('#nuevo').disabled = false;
+	$('#respuesta').textContent = '';
+}
+
+var notas;
+
+
+$('#nuevo').onclick = function() {
+	notas = [];
+	for(var i=0; i<4; i++)
+		notas.push(Math.floor(Math.random()*25));
+	
+	
+	
+	$('#dictar').disabled = false;
+	$('#ver').disabled = false;
+	$('#respuesta').textContent = '';
+	$('#dictar').click();
+}
+
+$('#dictar').onclick = function() {
+	PianoScript.reproducir(notas, 1000);
+}
+
+$('#ver').onclick = function() {
+	$('#respuesta').textContent = notas.map(function(nota) {return recursos.notas[nota%12]}).join(' - ');
+}
+
+</script>

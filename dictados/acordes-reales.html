@@ -1,0 +1,39 @@
+<meta charset="UTF-8">
+<title>Acordes reales</title>
+<button id="dictar" disabled>Dictar acorde</button>
+<button id="ver" disabled>Ver respuesta</button>
+<button id="nuevo" disabled>Nuevo acorde</button>
+<p id="respuesta">Cargando...</p>
+<script src="recursos.js"></script>
+<script>
+
+PianoScript.onload = function() {
+	$('#nuevo').disabled = false;
+	$('#respuesta').textContent = '';
+}
+
+var acorde, modo;
+
+
+$('#nuevo').onclick = function() {
+	modo = Math.floor(Math.random()*2) ? 'mayor' : 'menor';
+	var rand = Math.floor(Math.random()*12);
+	acorde = recursos.acordes[modo].map(function(nota) {
+		return nota + rand;
+	});
+	
+	$('#dictar').disabled = false;
+	$('#ver').disabled = false;
+	$('#respuesta').textContent = '';
+	$('#dictar').click();
+}
+
+$('#dictar').onclick = function() {
+	PianoScript.reproducir(acorde);
+}
+
+$('#ver').onclick = function() {
+	$('#respuesta').textContent = recursos.notas[ acorde[0]%12 ] + ' ' + modo;
+}
+
+</script>
