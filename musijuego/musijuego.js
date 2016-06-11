@@ -159,8 +159,8 @@ var Juego = {
 			'</div>'+
 		'</div>'),
 	"div_niveles": elt('<div>'+
-			'<div id="barra_de_estado">'+
-				'Puntaje: <b id="puntaje">0</b>. <a id="volver">Volver al menú</a>'+
+			'<div>'+
+				'Puntaje: <b id="puntaje">0</b>. <a class="volver-al-menú">Volver al menú</a>'+
 			'</div>'+
 			'<h3></h3>' +
 			'<div>'+
@@ -179,23 +179,22 @@ var Juego = {
 					'Si te gustó el juego, no te olvides de compartirlo.'+
 				'</p>'+
 				'<p>'+
-					'<a id="volver-ganar">Volver al menú</a>'+
+					'<a class="volver-al-menú">Volver al menú</a>'+
 				'</p>'+
 			'</div>'+
 		'</div>'),
-	"cargarMenú": function() {
+	"div_dificultad": elt('<div>'+
+			'<p>'+
+				'<b>Seleccionar dificultad.</b> '+
+				'<a class="volver-al-menú">Volver al menú</a>'+
+			'</p>'+
+			'<div><a class="dificultad" data-diff="0">Fácil (0)</a></div>'+
+			'<div><a class="dificultad" data-diff="1">Media (25)</a></div>'+
+			'<div><a class="dificultad" data-diff="2">Difícil (50)</a></div>'+
+	'</div>'),
+	"cargarDiv": function(nombre) {
 		$('#container').removeChild($('#container').firstChild);
-		$('#container').appendChild(Juego.div_menú);
-		$('#continuar', Juego.div_menú).textContent = "Continuar ("+Juego.puntaje()+")";
-		$('#continuar', Juego.div_menú).classList.toggle('inactivo', !Juego.puntaje());
-	},
-	"cargarNiveles": function() {
-		$('#container').removeChild($('#container').firstChild);
-		$('#container').appendChild(Juego.div_niveles);
-	},
-	"cargarGanar": function() {
-		$('#container').removeChild($('#container').firstChild);
-		$('#container').appendChild(Juego.div_ganar);
+		$('#container').appendChild(Juego['div_'+nombre]);
 	},
 	"puntaje": function(n) {
 		if(!localStorage)
@@ -205,6 +204,8 @@ var Juego = {
 		n = Math.max(0, n);
 		localStorage.setItem('puntajeMJ2', n);
 		$('#puntaje', Juego.div_niveles).textContent = n;
+		$('#continuar', Juego.div_menú).textContent = "Continuar ("+Juego.puntaje()+")";
+		$('#continuar', Juego.div_menú).classList.toggle('inactivo', !Juego.puntaje());
 	},
 	"repeticiones": _repeticionesPorNivel,
 	"obj_nivel": null,
@@ -214,7 +215,7 @@ var Juego = {
 			if(Juego.puntaje()===niveles.length) {
 				PianoScript.parar();
 				Juego.puntaje(0);
-				Juego.cargarGanar();
+				Juego.cargarDiv('ganar');
 				return;
 			} else return alert('Error: No existe el nivel '+ Juego.puntaje());
 		}
@@ -279,18 +280,13 @@ var Juego = {
 //Botones de menú:
 $('#continuar', Juego.div_menú).addEventListener('click', function() {
 	if(Juego.puntaje())
-		Juego.cargarNiveles();
+		Juego.cargarDiv('niveles');
 });
 $('#empezar', Juego.div_menú).addEventListener('click', function() {
 	Juego.puntaje(0);
-	Juego.cargarNiveles();
-	Juego.cargarNivel();
+	Juego.cargarDiv('dificultad');
 });
 //Botones de niveles:
-$('#volver', Juego.div_niveles).addEventListener('click', function() {
-	PianoScript.parar();
-	Juego.cargarMenú();
-});
 $('#repetir', Juego.div_niveles).addEventListener('click', function() {
 	if(Juego.repeticiones===0) {
 		Juego.puntaje(Juego.puntaje()-1);
@@ -300,20 +296,33 @@ $('#repetir', Juego.div_niveles).addEventListener('click', function() {
 	Juego.actualizarRepetir();
 	Juego.obj_nivel.reproducir();
 });
-//Botón en ganar:
-$('#volver-ganar', Juego.div_ganar).addEventListener('click', function() {
-	Juego.cargarMenú();
+//Botones de volver a menú:
+function volverAlMenú() {
+	PianoScript.parar();
+	Juego.cargarDiv('menú');
+}
+$('.volver-al-menú', Juego.div_niveles).addEventListener('click', volverAlMenú);
+$('.volver-al-menú', Juego.div_ganar).addEventListener('click', volverAlMenú);
+$('.volver-al-menú', Juego.div_dificultad).addEventListener('click', volverAlMenú);
+//Botones de dificultad:
+$$('.dificultad', Juego.div_dificultad).forEach(function(botón) {
+	botón.addEventListener('click', function() {
+		var dificultad = Number(this.getAttribute('data-diff'));
+		Juego.puntaje(dificultad * 25);
+		Juego.cargarDiv('niveles');
+		Juego.cargarNivel();
+	});
 });
 
 //Iniciales
 if(Juego.puntaje())
 	$('#continuar', Juego.div_menú).addEventListener('click', function _click() {
 		this.removeEventListener('click', _click);
-		Juego.puntaje(Juego.puntaje());
 		Juego.cargarNivel();
 	});
 
 
 function iniciar() {
-	Juego.cargarMenú();
+	Juego.puntaje(Juego.puntaje());
+	Juego.cargarDiv('menú');
 }
