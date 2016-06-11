@@ -197,10 +197,9 @@ var Juego = {
 		$('#container').appendChild(Juego['div_'+nombre]);
 	},
 	"puntaje": function(n) {
-		if(!localStorage)
-			return alert('Este juego no corre en tu navegador.');
 		if(n===undefined)
 			return Number(localStorage.getItem('puntajeMJ2')) || 0;
+		
 		n = Math.max(0, n);
 		localStorage.setItem('puntajeMJ2', n);
 		$('#puntaje', Juego.div_niveles).textContent = n;

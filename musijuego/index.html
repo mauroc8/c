@@ -6,9 +6,8 @@
 <body>
 <div id="container"><p class='inactivo'>Cargando...</p></div>
 <script>
-	var nua = navigator.userAgent;
-	var is_android = nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && !(nua.indexOf('Chrome') > -1);
-	if(is_android)
+	var es_compatible = window.localStorage && window.AudioContext && window.Promise;
+	if(!es_compatible)
 		document.write('<p class="incorrecto">Este juego no funciona en tu navegador. Probá entrando desde <i>Google Chrome</i> o <i>Mozilla Firefox</i>.</p>');
 </script>
 <script src="musijuego.js"></script>
