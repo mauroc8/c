@@ -29,12 +29,15 @@ var PianoScript = {
 			notas = [notas];
 		
 		if(delay == null)
-			delay = 0;
+			delay = 0;		
+		
+		var volumen = PianoScript.context.createGain();
+		volumen.gain.value = 0.4;
+		volumen.connect(PianoScript.context.destination);
 		
 		notas.forEach(function(n, i) {
 			var nota = PianoScript.crearNota[n]();
-			
-			nota.connect(PianoScript.volumen);
+			nota.connect(volumen);
 			nota.start(PianoScript.context.currentTime + i * delay);
 			
 			var agregado;
@@ -45,16 +48,10 @@ var PianoScript = {
 		});
 		
 	}, 'parar': function() {
-		if(PianoScript.volumen)
-			PianoScript.volumen.gain.value = 0;
-		
-		PianoScript.volumen = PianoScript.context.createGain();
-		
-		PianoScript.volumen.gain.value = 0.4;
-		PianoScript.volumen.connect(PianoScript.context.destination);
+		PianoScript.context.close();
+		PianoScript.context = new AudioContext();
 	}
 }
-PianoScript.parar();
 
 function cargarNota(n) {
 	return new Promise(function(fullfill, reject) {
