@@ -1,10 +1,139 @@
 <meta charset="UTF-8">
 <title>Dictados</title>
 <meta name="viewport" content="width=device-width, user-scalable=no">
-<ol id="dictados">
-	<li><a href="acordes-reales.html" target="iframe">Dictado de acordes reales</a></li>
-	<li><a href="notas-reales.html" target="iframe">Dictado de notas reales</a></li>
-	<li><a href="acordes-con-inversiones.html" target="iframe">Dictado de acordes con inversiones</a></li>
-	<li><a href="cuatro-notas.html" target="iframe">Dictado de cuatro notas</a></li>
-</ol>
-<iframe src="about:blank" name="iframe" style="width: 100%;border:0;"></iframe>
+<style>
+a {
+	color: blue;
+	cursor: pointer;
+}
+button {
+	margin-top: 4px;
+	padding: 4px;
+}
+p, ul {margin: 0;}
+</style>
+<p><b>Dictados</b></p>
+<ul id="listaDeDictados">Cargando...</ul>
+<hr>
+<div id="dictadoActual" style="display:none;">
+	<button id="nuevo">Nuevo</button>
+	<button id="mostrarRespuesta">Respuesta</button>
+	<button id="reproducir">Reproducir</button>
+	<p id="respuesta"></p>
+</div>
+<script src="recursos.js"></script>
+<script>
+
+var dictados = Object.create(null);
+
+function númeroAleatorioEntre(a, b) {
+	return Math.floor(Math.random() * b - a) + a;
+}
+
+dictados.notasReales = {
+	'título': 'Notas reales',
+	'opciones': [recursos.notas],
+	'dictadoActual': {'notas': null, 'respuesta': null},
+	'crearDictado': function() {
+		var nota = númeroAleatorioEntre(0, 23);
+		dictados.notasReales.dictadoActual.notas = [nota];
+		dictados.notasReales.dictadoActual.respuesta = recursos.notas[nota%12];
+	}
+}
+
+dictados.acordesReales = {
+	'título': 'Acordes reales',
+	'opciones': [recursos.notas, recursos.acordes],
+	'dictadoActual': {'notas': null, 'respuesta': null},
+	'crearDictado': function() {
+		var modo = númeroAleatorioEntre(0, 1) ? 'mayor' : 'menor';
+		var acorde = recursos.acordes[modo];
+		var nota = númeroAleatorioEntre(0, 23 - Math.max(...acorde));
+		acorde = acorde.map(n => n + nota);
+		
+		dictados.acordesReales.dictadoActual.notas = acorde;
+		dictados.acordesReales.dictadoActual.respuesta = recursos.notas[nota%12] + ' ' + modo;
+	}
+}
+
+dictados.cuatroNotas = {
+	'título': 'Cuatro notas',
+	'opciones': [recursos.notas, recursos.notas, recursos.notas, recursos.notas],
+	'delayReproducción': 0.7,
+	'dictadoActual': {'notas': null, 'respuesta': null},
+	'crearDictado': function() {
+		var notas = [];
+		for(var i = 0; i < 4; i++)
+			notas.push(númeroAleatorioEntre(0, 23));
+		
+		dictados.cuatroNotas.dictadoActual.notas = notas;
+		dictados.cuatroNotas.dictadoActual.respuesta = notas.map(n => recursos.notas[n%12]).join(' ');
+	}
+}
+
+function índiceAleatorioDeObjeto(objeto) {
+	var keys = [];
+	for(var key in objeto)
+		if(objeto.hasOwnProperty(key))
+			keys.push(key);
+	return keys[Math.floor(Math.random() * keys.length)];
+}
+
+dictados.acordesConInversiones = {
+	'título': 'Acordes con inversiones',
+	'opciones': [recursos.notas, recursos.inversiones],
+	'dictadoActual': {'notas': null, 'respuesta': null},
+	'crearDictado': function() {
+		var inversión = índiceAleatorioDeObjeto(recursos.inversiones);
+		var acorde = recursos.inversiones[inversión];
+		var nota = númeroAleatorioEntre(0, 23 - Math.max(...acorde));
+		acorde = acorde.map(n => n + nota);
+		var fundamental = nota + recursos.fundamentalesDeInversiones[inversión];
+		
+		
+		dictados.acordesConInversiones.dictadoActual.notas = acorde;
+		dictados.acordesConInversiones.dictadoActual.respuesta = recursos.notas[fundamental%12] + ' ' + inversión;
+	}
+}
+
+function elt(string) {
+	var div = document.createElement('div');
+	div.innerHTML = string;
+	return div.removeChild(div.firstChild);
+}
+
+PianoScript.onload = function() {
+	
+	$('#listaDeDictados').innerHTML = '';
+	
+	for(var dictado in dictados) (function(dictado) {
+		var list = elt('<li><a>'+dictado.título+'</a></li>');
+		
+		list.onclick = function() {
+			$('#dictadoActual').style.display = 'block';
+			$('#reproducir').disabled = $('#mostrarRespuesta').disabled = true;
+			
+			$('#reproducir').onclick = function() {
+				PianoScript.reproducir(dictado.dictadoActual.notas, dictado.delayReproducción);
+			}
+			
+			$('#nuevo').onclick = function() {
+				dictado.crearDictado();
+				$('#reproducir').disabled = $('#mostrarRespuesta').disabled = false;
+				$('#respuesta').textContent = '';
+				$('#reproducir').click();
+			}
+			
+			$('#mostrarRespuesta').onclick = function() {
+				$('#respuesta').textContent = dictado.dictadoActual.respuesta;
+			}
+			
+		}
+		
+		$('#listaDeDictados').appendChild(list);
+		
+	})(dictados[dictado]);
+	
+};
+
+</script>
