@@ -223,17 +223,14 @@ RenderizadorCanvas.prototype.dibujarObjetos = function() {
 }
 
 function obtenerCaracterDeDirección(vector) {
-	if(vector.x) {
-		if(vector.x < 0)
-			return '<';
-		else
-			return '>';
-	} else {
-		if(vector.y < 0)
-			return '^';
-		else
-			return 'v';
-	}
+	if(vector.x == 1)
+		return '>';
+	else if(vector.x == -1)
+		return '<';
+	else if(vector.y == 1)
+		return 'v';
+	else
+		return '^';
 }
 
 function iniciarNivel(planNivel, Renderizador, callback) {
