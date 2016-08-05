@@ -1,7 +1,3 @@
-"use strict";
-
-// Rompecabezas SCRIPT
-
 function Vector(x, y) {
 	this.x = x;
 	this.y = y;
@@ -65,7 +61,8 @@ Rompecabeza.prototype.moverCursor = function() {
 
 Rompecabeza.prototype.desordenarGrilla = function() {
 	var dir = 'izquierda, derecha, arriba, abajo'.split(', ');
-	for(var i = 0; i < this.width * this.width * this.height * this.height; i++) {
+	var max = this.width * this.width * this.height * this.height;
+	for(var i = 0; i < max; i++) {
 		this.moverCursor(dir[Math.floor(Math.random() * dir.length)]);
 	}
 }
@@ -193,9 +190,10 @@ var info = document.querySelector('#info');
 function cargarRompecabeza(srcImg, width, height, llamada) {
 	info.textContent = 'Cargando...';
 	return cargarImágen(srcImg).then(function(img) {
-		info.textContent = srcImg;
+		info.innerHTML = srcImg;
 		var rompecabeza = new Rompecabeza(img, width, height);
 		var renderizador = new RenderizadorCanvas(contenedor, rompecabeza);
+		
 		rastrearTeclas(flechas, function(dir) {
 			rompecabeza.moverCursor(dir);
 			renderizador.dibujarRompecabeza();
@@ -239,5 +237,5 @@ var niveles = [
 ];
 
 cargarJuego(niveles, function() {
-	location.reload();
+	info.textContent = 'Ganaste';
 });

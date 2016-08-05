@@ -116,15 +116,6 @@ Nivel.prototype.colisiónEn = function(pos) {
 		return this.mapa[pos.y][pos.x];
 }
 
-Nivel.prototype.objetoEn = function(pos) {
-	for(var i = 0; i < this.objetos.length; i++) {
-		var objeto = this.objetos[i];
-		if(objeto.pos.x == pos.x && objeto.pos.y == pos.y) {
-			return objeto;
-		}
-	}
-}
-
 Nivel.prototype.personajeTocaEstrella = function() {
 	var ganó = this.objetos.every(function(objeto) {
 		return this.colisiónEn(objeto.pos) == 'estrella';
@@ -306,19 +297,6 @@ var niveles = [
 		" ############# ",
 		"               "
 	], [
-		"               ",
-		" ############# ",
-		" #  *  #$    # ",
-		" #     #    x# ",
-		" #     #xx xx# ",
-		" #x x  #     # ",
-		" #  #  # xxx # ",
-		" #  xxx#     # ",
-		" #   xx#     # ",
-		" #@   x#    *# ",
-		" ############# ",
-		"               "
-	], [
 		"                 ",
 		" ############### ",
 		" #@     #    x*# ",
@@ -345,23 +323,6 @@ var niveles = [
 		" ############# ",
 		"               "
 	], [
-		"               ",
-		" ############# ",
-		" #* xxx#  $  # ",
-		" #x  xx#xx   # ",
-		" #x xxx#xxxx # ",
-		" #x  # #   x # ",
-		" #xx   #x    # ",
-		" #xxxx #    x# ",
-		" # #   #  xxx# ",
-		" #   xx# xxxx# ",
-		" #  xxx#     # ",
-		" #   xx#  x  # ",
-		" #  @  #xxx ## ",
-		" #########x *# ",
-		"         ##### ",
-		"               "
-	], [
 		"                           ",
 		" ######################### ",
 		" #@     xxx *#x  #   x   # ",
@@ -370,19 +331,6 @@ var niveles = [
 		" #   xx    xx#*x  x  #  $# ",
 		" ######################### ",
 		"                           "
-	], [
-		"                 ",
-		" ############### ",
-		" #xxxxxxxx#xxxx# ",
-		" #x           x# ",
-		" #x @ *       x# ",
-		" #xxxxxxxxxxxxx# ",
-		" #xxx   $xxxxxx# ",
-		" #xxx #       x# ",
-		" #xxx *       x# ",
-		" #xxxxxxxxxxxxx# ",
-		" ############### ",
-		"                 "
 	]
 ];
 
