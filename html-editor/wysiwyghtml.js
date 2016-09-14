@@ -22,7 +22,7 @@ $('#edit-body a').onclick = function() {
 $('#edit-wysiwyg a').onclick = function() {
 	ta_head.value = iframe.contentDocument.head.innerHTML;
 	ta_body.value = iframe.contentDocument.body.innerHTML
-	.replace(/<([^\>]*(p|div|blockquote|pre|header|footer|ul|ol|li|h[1-6])[^\>]*)><([^\>]*(p|div|blockquote|pre|header|footer|ul|ol|li|h[1-6])[^\>]*)>/g, '<$1>\n<$3>');
+	//.replace(/<([^\>]*(p|div|blockquote|pre|header|footer|ul|ol|li|h[1-6])[^\>]*)><([^\>]*(p|div|blockquote|pre|header|footer|ul|ol|li|h[1-6])[^\>]*)>/g, '<$1>\n<$3>');
 	edit_mode = 'html';
 	$('#edit-body').style.display = 'block';
 	$('#edit-wysiwyg').style.display = 'none';
