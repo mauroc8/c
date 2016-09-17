@@ -363,7 +363,7 @@ rastrearTeclas(teclas, function(tecla, ctrl, shift, evento) {
 			//teclas de estilo
 			var acción = ({'B':'bold','I':'italic','U':'underline','S':'stroke'})[tecla];
 			if(selección) {
-				var alternar = !grilla[selección.comienzo][acción];
+				var alternar = !grilla[selección.comienzo()][acción];
 				selección.forEach(function(pos) {
 					var bloque = grilla[pos];
 					if(alternar) {
