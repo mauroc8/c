@@ -9,22 +9,34 @@ function __(query, context) {
 //
 
 var canvas = _('#main-canvas');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+var resizeCanvas = document.createElement('canvas');
+canvas.width = resizeCanvas.width = window.innerWidth;
+canvas.height = resizeCanvas.height = window.innerHeight;
 var canvasContext=canvas.getContext('2d');
-canvasContext.fillStyle="white";
-canvasContext.fillRect(0,0,canvas.width,canvas.height);
-window.onresize = () => {
-	var canvCopy = canvas;
+var resizeContext=resizeCanvas.getContext('2d');
+window.onresize = function() {
+	if(window.innerWidth>resizeCanvas.width||window.innerHeight>resizeCanvas.height) {
+		var cop=resizeCanvas;
+		resizeCanvas=document.createElement('canvas');
+		resizeCanvas.width=window.innerWidth;
+		resizeCanvas.height=window.innerHeight;
+		resizeContext = resizeCanvas.getContext('2d');
+		resizeContext.drawImage(cop,0,0);
+	}
+	resizeContext.clearRect(0,0,canvas.width,canvas.height);
+	resizeContext.drawImage(canvas,0,0);
+	document.body.removeChild(canvas);
 	canvas = document.createElement('canvas');
-	canvas.style.position = 'absolute';
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	canvasContext = canvas.getContext('2d');
-	canvasContext.drawImage(canvCopy, 0, 0);
-	document.body.removeChild(canvCopy);
+	canvas.width=window.innerWidth;
+	canvas.height=window.innerHeight;
+	canvasContext=canvas.getContext('2d');
+	canvasContext.drawImage(resizeCanvas,0,0);
+	canvas.style.position='absolute';
 	document.body.appendChild(canvas);
 }
+
+canvasContext.fillStyle="white";
+canvasContext.fillRect(0,0,canvas.width,canvas.height);
 
 //globals:
 var startTime, lastTime, balls=[],
@@ -43,6 +55,9 @@ function initialize(time) {
 	requestAnimationFrame(animate);
 }
 function animate(time) {
+	if(playing==false)
+		return;
+	
 	var frameTime = Math.min(time - lastTime, 300)/1000;
 	var elapsedTime = (time - startTime)/1000;
 	
@@ -52,8 +67,9 @@ function animate(time) {
 		//update position:
 		var dx = mouse.x - ball.x;
 		var dy = mouse.y - ball.y;
-		ball.vx = (ball.vx + dx*ball.attraction) * (1-ball.friction);
-		ball.vy = (ball.vy + dy*ball.attraction) * (1-ball.friction);
+		var fric = Math.pow(1-ball.friction, frameTime*20);
+		ball.vx = (ball.vx + dx*ball.attraction) * fric;
+		ball.vy = (ball.vy + dy*ball.attraction) * fric;
 		ball.x += ball.vx * frameTime;
 		ball.y += ball.vy * frameTime;
 	}
@@ -244,10 +260,11 @@ function moveDown() {
 function save() {
 	var palette = __('input[type="range"]', options).map(input=>Number(input.value));
 	localStorage.setItem('palette', JSON.stringify(palette));
-	var balls = __('#balls tr:not(:first-child):not(:last-child)').map(function(tr) {
+	var balls = __('#balls tr:not(:first-child):not(:last-child)', options).map(function(tr) {
 		return __('input', tr).map(inp=>inp.value);
 	});
 	localStorage.setItem('balls', JSON.stringify(balls));
+	localStorage.setItem('background', _('input[type="color"]',options).value);
 }
 _('#fn-save',options).onclick=save;
 
@@ -259,28 +276,41 @@ function restore() {
 		JSON.parse(palette).forEach(function(color, i) {
 			range[i].value = num[i].value = color;
 		});
+	} else {
+		randomize();
 	}
 	var balls = localStorage.getItem('balls');
 	if(balls) {
-		JSON.parse(balls).forEach(function(ball) {
-			var clone = add.cloneNode(true);
-			//add/delete
-			var del = _('td:last-child', clone);
-			del.textContent = '-delete';
-			del.onclick = deleteThisBall;
-			//up/down arrow buttons
-			var first=_('td:first-child', clone);
-			var div = createUpDownArrow();
-			first.appendChild(div);
-			//update input values
-			__('#balls input').forEach(function(input, i) {
-				input.value = ball[i];
-			});
-			
-			_('#balls tbody', options).insertBefore(clone, add);
-			_('td:first-child span', add).textContent = __('tr', options).length - 1;
-		});
+		balls = JSON.parse(balls);
+	} else {
+		balls = [
+			[30, 15, 1,   0.4, 0.1],
+			[20,  5, 1.8, 0.8, 0.08],
+			[10,  5, 2.6, 0.9, 0.06]
+		];
 	}
+	
+	balls.forEach(function(ball) {
+		var clone = add.cloneNode(true);
+		//add/delete
+		var del = _('td:last-child', clone);
+		del.textContent = '-delete';
+		del.onclick = deleteThisBall;
+		//up/down arrow buttons
+		var first=_('td:first-child', clone);
+		var div = createUpDownArrow();
+		first.appendChild(div);
+		//update input values
+		__('input', clone).forEach(function(input, i) {
+			input.value = ball[i];
+		});
+		
+		_('#balls tbody', options).insertBefore(clone, add);
+		_('td:first-child span', add).textContent = __('tr', options).length - 1;
+	});
+	var background = localStorage.getItem('background');
+	if(background)
+	   _('input[type="color"]',options).value = background;
 }
 restore();
 
@@ -420,7 +450,6 @@ function ctrlZ() {
 	canvasContext.clearRect(0,0,canvas.width,canvas.height);
 	canvasContext.drawImage(ctrlZCanvas,0,0);
 }
-_('#fn-undo').onclick=ctrlZ;
 
 _('#fn-fillBg').onclick = function() {
 	canvasContext.fillStyle = _('input[type="color"]',options).value;

@@ -8,13 +8,21 @@
 <body>
 	<canvas style="position:absolute;" id="main-canvas"></canvas>
 	<div id="options">
-		<h3>Options</h3>
+		<h3>Settings</h3>
 		<span class="right">
-			<a href="javascript:openInNewWindow();" id="openInNewWindow">open in new window</a> /
-			<button id="fn-save">save</button>
+			<a href="javascript:openInNewWindow();" id="openInNewWindow" title="Open settings in new window">open in new window</a>
+			<button id="fn-save" title="Save settings in local storage. If what you want to save is the image, you should right-click on it and then -&amp;Save image">save</button>
 		</span>
 		<hr>
-		<h4>Color palette</h4><button id="fn-randomize" class="right">randomize</button>
+		<h4>Canvas</h4><br>
+		<p style="margin-bottom:.4em;">
+			<small>Background</small>
+			<input type="color" value="#ffffff">
+			<button id="fn-fillBg" title="Fill background with chosen color">CLEAR</button>
+		</p>
+		
+		<h4>Color palette</h4>
+		<button id="fn-randomize" class="right" title="Randomize color palette">randomize</button>
 		<div class="clear"></div>
 		<ul id="color-palette">
 			<li>
@@ -65,10 +73,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<h4>Canvas</h4><br>
-		Fill with color: <input type="color" value="#ffffff">
-		<button id="fn-fillBg">OK</button><br>
-		<button id="fn-undo">Undo (ctrl-z)</button>
 	</div>
 	<script src="colores-y-movimiento.js"></script>
 </body>
