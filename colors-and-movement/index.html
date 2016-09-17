@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Colores y movimiento</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<canvas style="position:absolute;" id="main-canvas"></canvas>
+	<div id="options">
+		<h3>Options</h3>
+		<span class="right">
+			<a href="javascript:openInNewWindow();" id="openInNewWindow">open in new window</a> /
+			<button id="fn-save">save</button>
+		</span>
+		<hr>
+		<h4>Color palette</h4><button id="fn-randomize" class="right">randomize</button>
+		<div class="clear"></div>
+		<ul id="color-palette">
+			<li>
+				<h5>Red<br></h5>
+				<p><input max="255" min="0" value="0" type="range"><input type="number" value="0"></p>
+				<p><input max="255" min="0" type="range" value="255"><input type="number" value="255"></p>
+			</li>
+			<li>
+				<h5>Green<br></h5>
+				<p><input max="255" min="0" value="0" type="range"><input type="number" value="0"></p>
+				<p><input max="255" min="0" type="range" value="255"><input type="number" value="255"></p>
+			</li>
+			<li>
+				<h5>Blue<br></h5>
+				<p><input max="255" min="0" value="0" type="range"><input type="number" value="0"></p>
+				<p><input max="255" min="0" type="range" value="255"><input type="number" value="255"></p>
+			</li>
+			<li>
+				<h5>Alpha</h5>
+				<p>
+					<input type="range" min="0" max="1" step="0.01" value="1" class="alpha">
+					<input type="number" value="1" min="0" max="1" step="0.01">
+				</p>
+			</li>
+		</ul>
+		<canvas id="preview-canvas" class="right" width="240" height="160"></canvas>
+		<div class="clear"></div>
+		<h4>Balls</h4>
+		<table id="balls">
+			<tbody>
+				<tr>
+					<th>#</th>
+					<th>size</th>
+					<th>wave<br>size</th>
+					<th>wave<br>period</th>
+					<th>attraction</th>
+					<th>friction</th>
+					<th>add/<br>remove</th>
+				</tr>
+				<tr>
+					<td><span>1</span></td>
+					<td><input min="0" value="30" type="number"></td>
+					<td><input value="15" type="number"></td>
+					<td><input min="0" step="0.1" value="1" type="number"></td>
+					<td><input min="0" step="0.1" value="0.4" type="number"></td>
+					<td><input min="0" max="1" step="0.01" value="0.1" type="number"></td>
+					<td>+add</td>
+				</tr>
+			</tbody>
+		</table>
+		<h4>Canvas</h4><br>
+		Fill with color: <input type="color" value="#ffffff">
+		<button id="fn-fillBg">OK</button><br>
+		<button id="fn-undo">Undo (ctrl-z)</button>
+	</div>
+	<script src="colores-y-movimiento.js"></script>
+</body>
+</html>
