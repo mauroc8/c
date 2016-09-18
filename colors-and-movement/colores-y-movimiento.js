@@ -45,6 +45,11 @@ var startTime, lastTime, balls=[],
 	ctrlZCanvas=document.createElement('canvas'),
 	ctrlZContext=ctrlZCanvas.getContext('2d');
 
+
+var previewCanvas = _('#preview-canvas');
+var previewContext = previewCanvas.getContext('2d');
+
+
 window.onmousemove = function(event) {
 	mouse.x = event.clientX;
 	mouse.y = event.clientY;
@@ -358,9 +363,6 @@ function randomize() {
 	previewPalette();
 }
 _('#fn-randomize',options).onclick=randomize;
-
-var previewCanvas = _('#preview-canvas');
-var previewContext = previewCanvas.getContext('2d');
 
 function previewPalette() {
 	var w = previewCanvas.width;
