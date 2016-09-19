@@ -14,31 +14,6 @@ canvas.width = resizeCanvas.width = window.innerWidth;
 canvas.height = resizeCanvas.height = window.innerHeight;
 var canvasContext=canvas.getContext('2d');
 var resizeContext=resizeCanvas.getContext('2d');
-window.onresize = function() {
-	var w = window.innerWidth, h = window.innerHeight;
-	if(w>resizeCanvas.width||h>resizeCanvas.height) {
-		var cop=resizeCanvas;
-		resizeCanvas=document.createElement('canvas');
-		resizeCanvas.width = w;
-		resizeCanvas.height = h;
-		resizeContext = resizeCanvas.getContext('2d');
-		resizeContext.fillStyle = _('input[type="color"]',options).value;
-		resizeContext.fillRect(0,0,resizeCanvas.width,resizeCanvas.height);
-		resizeContext.drawImage(cop,0,0);
-	}
-	resizeContext.clearRect(0,0,canvas.width,canvas.height);
-	resizeContext.drawImage(canvas,0,0);
-	document.body.removeChild(canvas);
-	canvas = document.createElement('canvas');
-	canvas.width = w;
-	canvas.height = h;
-	canvasContext=canvas.getContext('2d');
-	canvasContext.drawImage(resizeCanvas,0,0);
-	canvas.style.position='absolute';
-	document.body.appendChild(canvas);
-	
-	options.style.maxHeight = h + 'px';
-}
 
 //globals:
 var startTime, lastTime, balls=[],
@@ -65,8 +40,8 @@ function animate(time) {
 	if(playing==false)
 		return;
 	
-	var frameTime = Math.min(time - lastTime, 300)/1000;
-	var elapsedTime = (time - startTime)/1000;
+	var frameTime = Math.min(time - lastTime, 300)/1000;//in seconds
+	var elapsedTime = (time - startTime)/1000; //in seconds
 	
 	for(var i=0, l=balls.length; i<l; i++) {
 		var ball = balls[i];
@@ -74,9 +49,11 @@ function animate(time) {
 		//update position:
 		var dx = mouse.x - ball.x;
 		var dy = mouse.y - ball.y;
-		var fric = Math.pow(1-ball.friction, frameTime*20);
-		ball.vx = (ball.vx + dx*ball.attraction) * fric;
-		ball.vy = (ball.vy + dy*ball.attraction) * fric;
+		var ft20 = frameTime*20;
+		var friction = Math.pow(1-ball.friction, ft20);
+		var attraction = ball.attraction*ft20;
+		ball.vx = (ball.vx + dx*attraction) * friction;
+		ball.vy = (ball.vy + dy*attraction) * friction;
 		ball.x += ball.vx * frameTime;
 		ball.y += ball.vy * frameTime;
 	}
@@ -140,10 +117,36 @@ function drawBall(ball, frameTime, elapsedTime) {
 		$.fillStyle = 'rgb('+color.r+','+color.g+','+color.b+')';
 	else
 		$.fillStyle = 'rgba('+color.r+','+color.g+','+color.b+','+color.a+')';
-	var radius = ball.size + ball.waveSize*ball.waveFunction(elapsedTime/ball.wavePeriod);
+	var radius = Math.abs(ball.size + ball.waveSize*ball.waveFunction(elapsedTime/ball.wavePeriod));
 	$.beginPath();
 	$.arc(ball.x, ball.y, radius, 0, 6.28);
 	$.fill();
+}
+
+window.onresize = function() {
+	var w = window.innerWidth, h = window.innerHeight;
+	if(w>resizeCanvas.width||h>resizeCanvas.height) {
+		var cop=resizeCanvas;
+		resizeCanvas=document.createElement('canvas');
+		resizeCanvas.width = w;
+		resizeCanvas.height = h;
+		resizeContext = resizeCanvas.getContext('2d');
+		resizeContext.fillStyle = _('input[type="color"]',options).value;
+		resizeContext.fillRect(0,0,resizeCanvas.width,resizeCanvas.height);
+		resizeContext.drawImage(cop,0,0);
+	}
+	resizeContext.clearRect(0,0,canvas.width,canvas.height);
+	resizeContext.drawImage(canvas,0,0);
+	document.body.removeChild(canvas);
+	canvas = document.createElement('canvas');
+	canvas.width = w;
+	canvas.height = h;
+	canvasContext=canvas.getContext('2d');
+	canvasContext.drawImage(resizeCanvas,0,0);
+	canvas.style.position='absolute';
+	document.body.appendChild(canvas);
+	
+	options.style.maxHeight = h + 'px';
 }
 
 //Now the UI
