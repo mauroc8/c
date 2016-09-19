@@ -1,14 +1,14 @@
-function _(query, context) {
+function $(query, context) {
 	return (context||document).querySelector(query);
 }
-function __(query, context) {
+function $$(query, context) {
 	return Array.prototype.slice.call(
 	         (context||document).querySelectorAll(query)
 	       );
 }
 //
 
-var canvas = _('#main-canvas');
+var canvas = $('#main-canvas');
 var resizeCanvas = document.createElement('canvas');
 canvas.width = resizeCanvas.width = window.innerWidth;
 canvas.height = resizeCanvas.height = window.innerHeight;
@@ -18,12 +18,12 @@ var resizeContext=resizeCanvas.getContext('2d');
 //globals:
 var startTime, lastTime, balls=[],
 	mouse={x:0, y:0}, playing=false, colorPalette=[0,255,0,255,0,255],
-	currentContext, //a pointer to the current context we are working on
+	currentContext, //the current context we are working on
 	ctrlZCanvas=document.createElement('canvas'),
 	ctrlZContext=ctrlZCanvas.getContext('2d');
 
 
-var previewCanvas = _('#preview-canvas');
+var previewCanvas = $('#preview-canvas');
 var previewContext = previewCanvas.getContext('2d');
 
 
@@ -75,8 +75,7 @@ function Ball(custom) {
 		'friction': 0.1, //from 0 to 1.
 		'size': 30, //radius
 		'waveSize': 15, //this adds/substracts from radius - must not be greater than size
-		'wavePeriod': 1, //divisor: Math.sin(elapsedTime/wavePeriod)
-		'waveFunction': Math.sin
+		'wavePeriod': 1 //in secs
 	}, custom);
 }
 
@@ -112,15 +111,69 @@ function drawBall(ball, frameTime, elapsedTime) {
 		ball.goingTo = newRandomColor(colorPalette);
 	}
 	//draw:
-	var $ = currentContext;
+	var cx = currentContext;
 	if(color.a==1)
-		$.fillStyle = 'rgb('+color.r+','+color.g+','+color.b+')';
+		cx.fillStyle = 'rgb('+color.r+','+color.g+','+color.b+')';
 	else
-		$.fillStyle = 'rgba('+color.r+','+color.g+','+color.b+','+color.a+')';
-	var radius = Math.abs(ball.size + ball.waveSize*ball.waveFunction(elapsedTime/ball.wavePeriod));
-	$.beginPath();
-	$.arc(ball.x, ball.y, radius, 0, 6.28);
-	$.fill();
+		cx.fillStyle = 'rgba('+color.r+','+color.g+','+color.b+','+color.a+')';
+	var radius = Math.abs(
+	                      ball.size +
+	                      ball.waveSize * Math.sin(
+	                                        elapsedTime * ball.wavePeriod));
+	cx.beginPath();
+	cx.arc(ball.x, ball.y, radius, 0, 6.28);
+	cx.fill();
+}
+
+var tutorial;
+if(localStorage.getItem('has-done-tutorial'))
+	tutorial=false;
+else {
+	tutorial=document.createElement('div');
+	tutorial.id = 'tutorial';
+	tutorial.textContent='Click here --or anywhere-- to start drawing';
+	document.body.appendChild(tutorial);
+}
+
+//eventListeners
+window.onclick = function(event) {
+	if(event.button!==0)
+		return;
+	if(event.target===canvas||event.target===tutorial) {
+		if(tutorial) {
+			setTimeout(_=>tutorial.textContent='Then click again to stop',100);
+		}
+		playing = !playing;
+		if(playing) {
+			options.className = 'delete';
+			colorPalette = $$('input[type="range"]',options).map(inp=>Number(inp.value));
+			balls = $$('tr:not(:first-child):not(:last-child)',options).map(function(tr) {
+				var inp = $$('input',tr).map(inp=>Number(inp.value));
+				//this is how the input values are translated to Ball properties
+				var waveSize = (inp[1]-inp[0])/4;
+				return Ball({
+					'size': inp[0]/2+waveSize,
+					'waveSize': waveSize,
+					'wavePeriod': Math.PI/inp[2],
+					'attraction': inp[3],
+					'friction': inp[4]
+				});
+			});
+			saveCtrlZCopy();
+			currentContext = canvasContext;
+			requestAnimationFrame(initialize);
+			setTimeout(_=>options.style.display='none', 230);
+		} else {
+			options.style.display='block';
+			if(tutorial) {
+				tutorial.className='delete';
+				setTimeout(_=>document.body.removeChild(tutorial),230);
+				tutorial=false;
+				localStorage.setItem('has-done-tutorial', 'true');
+			}
+			setTimeout(_=>options.className = '',0);
+		}
+	}
 }
 
 window.onresize = function() {
@@ -131,7 +184,7 @@ window.onresize = function() {
 		resizeCanvas.width = w;
 		resizeCanvas.height = h;
 		resizeContext = resizeCanvas.getContext('2d');
-		resizeContext.fillStyle = _('input[type="color"]',options).value;
+		resizeContext.fillStyle = $('input[type="color"]',options).value;
 		resizeContext.fillRect(0,0,resizeCanvas.width,resizeCanvas.height);
 		resizeContext.drawImage(cop,0,0);
 	}
@@ -150,40 +203,42 @@ window.onresize = function() {
 }
 
 //Now the UI
-var options = _('#options');
+var options = $('#options');
 
 options.style.maxHeight = (window.innerHeight-30) + 'px';
 
 //sync input[type="range"] with input[type="number"]
-__('#color-palette input[type="range"]', options).forEach(function(input, i) {
+$$('#color-palette input[type="range"]', options).forEach(function(input, i) {
 	input.onchange = function() {
-		__('#color-palette input[type="number"]',options)[i].value = this.value;
+		$$('#color-palette input[type="number"]',options)[i].value = this.value;
 		previewPalette();
 	}
 });
-__('#color-palette input[type="number"]', options).forEach(function(input, i) {
+$$('#color-palette input[type="number"]', options).forEach(function(input, i) {
 	input.onchange = function() {
-		__('#color-palette input[type="range"]',options)[i].value = this.value;
+		$$('#color-palette input[type="range"]',options)[i].value = this.value;
 		previewPalette();
 	}
 });
 
 //balls
-var add = _('tr:last-child', options);
+var add = $('tr:last-child', options);
 
-_('td:last-child', add).onclick = function() {
+$('td:last-child', add).onclick = function() {
+	//warning: this code is duplicated in restore()
+	
 	var clone = add.cloneNode(true);
 	//add/remove
-	var del = _('td:last-child', clone);
+	var del = $('td:last-child', clone);
 	del.textContent = '-remove';
 	del.onclick = deleteThisBall;
 	//up/down arrow buttons
-	var first=_('td:first-child', clone);
+	var first=$('td:first-child', clone);
 	var div = createUpDownArrow();
 	first.appendChild(div);
 	
-	_('#balls tbody', options).insertBefore(clone, add);
-	_('td:first-child span', add).textContent = __('tr', options).length - 1;
+	$('#balls tbody', options).insertBefore(clone, add);
+	$('td:first-child span', add).textContent = $$('tr', options).length - 1;
 	
 	//autosave
 	save();
@@ -202,10 +257,10 @@ function deleteThisBall() {
 }
 
 function updateNumbers() {
-	var tr = __('tr', options);
+	var tr = $$('tr', options);
 	for(var i=1, l=tr.length-1;i<l;i++)
-		_('td span', tr[i]).textContent = i;
-	_('td:first-child span', add).textContent = __('tr', options).length - 1;
+		$('td span', tr[i]).textContent = i;
+	$('td:first-child span', add).textContent = $$('tr', options).length - 1;
 }
 
 //up/down arrows
@@ -244,10 +299,10 @@ function moveUp() {
 	var tr = this;
 	while(tr.tagName!=='TR')
 		tr = tr.parentNode;
-	if(tr.previousElementSibling!==_('tr:first-child',options)) {
+	if(tr.previousElementSibling!==$('tr:first-child',options)) {
 		tr.className = 'delete';
 		setTimeout(function() {
-			if(tr.previousElementSibling!==_('tr:first-child',options))
+			if(tr.previousElementSibling!==$('tr:first-child',options))
 				tr.parentNode.insertBefore(tr, tr.previousElementSibling);
 			setTimeout(function() {
 				tr.className = "";
@@ -260,10 +315,10 @@ function moveDown() {
 	var tr = this;
 	while(tr.tagName!=='TR')
 		tr = tr.parentNode;
-	if(tr.nextElementSibling!==_('tr:last-child',options)) {
+	if(tr.nextElementSibling!==$('tr:last-child',options)) {
 		tr.className = 'delete';
 		setTimeout(function() {
-			if(tr.nextElementSibling!==_('tr:last-child',options))
+			if(tr.nextElementSibling!==$('tr:last-child',options))
 				tr.parentNode.insertBefore(tr, tr.nextElementSibling.nextElementSibling);
 			setTimeout(function() {
 				tr.className = "";
@@ -275,22 +330,22 @@ function moveDown() {
 
 //Save and Restore
 function save() {
-	var palette = __('input[type="range"]', options).map(input=>Number(input.value));
+	var palette = $$('input[type="range"]', options).map(input=>Number(input.value));
 	localStorage.setItem('palette', JSON.stringify(palette));
-	var balls = __('#balls tr:not(:first-child):not(:last-child)', options).map(function(tr) {
-		return __('input', tr).map(inp=>inp.value);
+	var balls = $$('#balls tr:not(:first-child):not(:last-child)', options).map(function(tr) {
+		return $$('input', tr).map(inp=>inp.value);
 	});
 	localStorage.setItem('balls', JSON.stringify(balls));
-	localStorage.setItem('background', _('input[type="color"]',options).value);
+	localStorage.setItem('background', $('input[type="color"]',options).value);
 }
-_('#fn-save',options).onclick=save;
+$('#fn-save',options).onclick=save;
 
 
 function restore() {
 	var palette = localStorage.getItem('palette');
 	if(palette) {
-		var range = __('input[type="range"]', options);
-		var num = __('input[type="number"]', options);
+		var range = $$('input[type="range"]', options);
+		var num = $$('input[type="number"]', options);
 		JSON.parse(palette).forEach(function(color, i) {
 			range[i].value = num[i].value = color;
 		});
@@ -311,93 +366,45 @@ function restore() {
 	balls.forEach(function(ball) {
 		var clone = add.cloneNode(true);
 		//add/delete
-		var del = _('td:last-child', clone);
+		var del = $('td:last-child', clone);
 		del.textContent = '-remove';
 		del.onclick = deleteThisBall;
 		//up/down arrow buttons
-		var first=_('td:first-child', clone);
+		var first=$('td:first-child', clone);
 		var div = createUpDownArrow();
 		first.appendChild(div);
 		//update input values
-		__('input', clone).forEach(function(input, i) {
+		$$('input', clone).forEach(function(input, i) {
 			input.value = ball[i];
 		});
 		
-		_('#balls tbody', options).insertBefore(clone, add);
-		_('td:first-child span', add).textContent = __('tr', options).length - 1;
+		$('#balls tbody', options).insertBefore(clone, add);
+		$('td:first-child span', add).textContent = $$('tr', options).length - 1;
 	});
 	var background = localStorage.getItem('background');
 	if(background)
-	   _('input[type="color"]',options).value = background;
+	   $('input[type="color"]',options).value = background;
 }
 restore();
-canvasContext.fillStyle=_('input[type="color"]',options).value;
+canvasContext.fillStyle=$('input[type="color"]',options).value;
 canvasContext.fillRect(0,0,canvas.width,canvas.height);
-
-var tutorial;
-if(localStorage.getItem('has-done-tutorial'))
-	tutorial=false;
-else {
-	tutorial=document.createElement('div');
-	tutorial.id = 'tutorial';
-	tutorial.textContent='Click here --or anywhere-- to start drawing';
-	document.body.appendChild(tutorial);
-}
-
-window.onclick = function(event) {
-	if(event.button!==0)
-		return;
-	if(event.target===canvas||event.target===tutorial) {
-		if(tutorial) {
-			setTimeout(_=>tutorial.textContent='Then click again to stop',100);
-		}
-		playing = !playing;
-		if(playing) {
-			options.className = 'delete';
-			colorPalette = __('input[type="range"]',options).map(inp=>Number(inp.value));
-			balls = __('tr:not(:first-child):not(:last-child)',options).map(function(tr) {
-				var inp = __('input',tr).map(inp=>Number(inp.value));
-				return Ball({
-					'size': inp[0],
-					'waveSize': inp[1],
-					'wavePeriod': inp[2],
-					'attraction': inp[3],
-					'friction': inp[4]
-				});
-			});
-			saveCtrlZCopy();
-			currentContext = canvasContext;
-			requestAnimationFrame(initialize);
-			setTimeout(_=>options.style.display='none', 230);
-		} else {
-			options.style.display='block';
-			if(tutorial) {
-				tutorial.className='delete';
-				setTimeout(_=>document.body.removeChild(tutorial),230);
-				tutorial=false;
-				localStorage.setItem('has-done-tutorial', 'true');
-			}
-			setTimeout(_=>options.className = '',0);
-		}
-	}
-}
 
 //randomize color palette
 function randomize() {
-	var numb = __('#color-palette input[type="number"]',options);
-	__('#color-palette input[type="range"]:not(.alpha)',options).forEach(function(input,i) {
+	var numb = $$('#color-palette input[type="number"]',options);
+	$$('#color-palette input[type="range"]:not(.alpha)',options).forEach(function(input,i) {
 		var rand = Math.floor(Math.random()*256);
 		input.value = numb[i].value = rand;
 	});
 	previewPalette();
 }
-_('#fn-randomize',options).onclick=randomize;
+$('#fn-randomize',options).onclick=randomize;
 
 function previewPalette() {
 	var w = previewCanvas.width;
 	var h = previewCanvas.height;
 	//
-	var palette = __('input[type="range"]',options).map(inp=>Number(inp.value));
+	var palette = $$('input[type="range"]',options).map(inp=>Number(inp.value));
 	for(var i=0;i<6;i+=2) {
 		var a = palette[i];
 		var b = palette[i+1];
@@ -456,16 +463,25 @@ function openInNewWindow() {
 	optionsWindow.document.body.appendChild(options);
 	options.style.position = 'relative';
 	options.style.margin = '0';
-	_('#openInNewWindow',options).style.display = 'none';
+	$('#openInNewWindow',options).style.display = 'none';
+	$('#closeWindow',options).style.display="inline-block";
 	optionsWindow.onkeydown=ctrlZEventHandler;
 	optionsWindow.onunload=function(){
 		document.body.appendChild(options);
 		options.style.position="absolute";
-		_('#openInNewWindow',options).style.display = 'inline-block';
+		$('#openInNewWindow',options).style.display = 'inline-block';
+		$('#closeWindow',options).style.display="none";
 		options.style.margin="1em";
 		optionsWindow=null;
 	}
 }
+$('#openInNewWindow',options).onclick=openInNewWindow;
+
+function closeWindow() {
+	if(optionsWindow)
+		optionsWindow.close();
+}
+$('#closeWindow',options).onclick=closeWindow;
 
 window.onunload=function(){if(optionsWindow)optionsWindow.close();}
 
@@ -487,9 +503,9 @@ function ctrlZ() {
 	}
 }
 
-_('#fn-fillBg').onclick = function() {
+$('#fn-fillBg').onclick = function() {
 	saveCtrlZCopy();
-	canvasContext.fillStyle = _('input[type="color"]',options).value;
+	canvasContext.fillStyle = $('input[type="color"]',options).value;
 	canvasContext.fillRect(0,0,canvas.width,canvas.height);
 	//autosave
 	save();

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Colores y movimiento</title>
+	<title>Colors and movement</title>
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,7 +10,8 @@
 	<div id="options">
 		<h3>Settings</h3>
 		<span class="right">
-			<a href="javascript:openInNewWindow();" id="openInNewWindow" title="Open settings in new window">open in new window</a>
+			<a href="javascript:void(0);" id="openInNewWindow" title="Open settings in new window">open in new window</a>
+			<a href="javascript:void(0);" id="closeWindow" style="display:none;">close window</a>
 			<button id="fn-save" title="Save settings in local storage. If what you want to save is the image, you should right-click on it and then -&amp;Save image">save</button>
 		</span>
 		<hr>
@@ -55,9 +56,9 @@
 			<tbody>
 				<tr>
 					<th>#</th>
-					<th>size</th>
-					<th>wave<br>size</th>
-					<th>wave<br>period</th>
+					<th>min<br>size</th>
+					<th>max<br>size</th>
+					<th>grow<br>time</th>
 					<th>attraction</th>
 					<th>friction</th>
 					<th>add/<br>remove</th>
@@ -65,8 +66,8 @@
 				<tr>
 					<td><span>1</span></td>
 					<td><input min="0" value="30" type="number"></td>
-					<td><input value="15" type="number"></td>
-					<td><input min="0" step="0.1" value="1" type="number"></td>
+					<td><input value="90" type="number"></td>
+					<td><input min="0" step="0.1" value="3" type="number"></td>
 					<td><input min="0" step="0.1" value="0.4" type="number"></td>
 					<td><input min="0" max="1" step="0.01" value="0.1" type="number"></td>
 					<td>+add</td>
