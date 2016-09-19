@@ -15,28 +15,30 @@ canvas.height = resizeCanvas.height = window.innerHeight;
 var canvasContext=canvas.getContext('2d');
 var resizeContext=resizeCanvas.getContext('2d');
 window.onresize = function() {
-	if(window.innerWidth>resizeCanvas.width||window.innerHeight>resizeCanvas.height) {
+	var w = window.innerWidth, h = window.innerHeight;
+	if(w>resizeCanvas.width||h>resizeCanvas.height) {
 		var cop=resizeCanvas;
 		resizeCanvas=document.createElement('canvas');
-		resizeCanvas.width=window.innerWidth;
-		resizeCanvas.height=window.innerHeight;
+		resizeCanvas.width = w;
+		resizeCanvas.height = h;
 		resizeContext = resizeCanvas.getContext('2d');
+		resizeContext.fillStyle = _('input[type="color"]',options).value;
+		resizeContext.fillRect(0,0,resizeCanvas.width,resizeCanvas.height);
 		resizeContext.drawImage(cop,0,0);
 	}
 	resizeContext.clearRect(0,0,canvas.width,canvas.height);
 	resizeContext.drawImage(canvas,0,0);
 	document.body.removeChild(canvas);
 	canvas = document.createElement('canvas');
-	canvas.width=window.innerWidth;
-	canvas.height=window.innerHeight;
+	canvas.width = w;
+	canvas.height = h;
 	canvasContext=canvas.getContext('2d');
 	canvasContext.drawImage(resizeCanvas,0,0);
 	canvas.style.position='absolute';
 	document.body.appendChild(canvas);
+	
+	options.style.maxHeight = h + 'px';
 }
-
-canvasContext.fillStyle="white";
-canvasContext.fillRect(0,0,canvas.width,canvas.height);
 
 //globals:
 var startTime, lastTime, balls=[],
@@ -91,7 +93,7 @@ function Ball(custom) {
 		'friction': 0.1, //from 0 to 1.
 		'size': 30, //radius
 		'waveSize': 15, //this adds/substracts from radius - must not be greater than size
-		'wavePeriod': 1, //multiplier: Math.sin(elapsedTime*wavePeriod)
+		'wavePeriod': 1, //divisor: Math.sin(elapsedTime/wavePeriod)
 		'waveFunction': Math.sin
 	}, custom);
 }
@@ -133,7 +135,7 @@ function drawBall(ball, frameTime, elapsedTime) {
 		$.fillStyle = 'rgb('+color.r+','+color.g+','+color.b+')';
 	else
 		$.fillStyle = 'rgba('+color.r+','+color.g+','+color.b+','+color.a+')';
-	var radius = ball.size + ball.waveSize*ball.waveFunction(elapsedTime*ball.wavePeriod);
+	var radius = ball.size + ball.waveSize*ball.waveFunction(elapsedTime/ball.wavePeriod);
 	$.beginPath();
 	$.arc(ball.x, ball.y, radius, 0, 6.28);
 	$.fill();
@@ -141,6 +143,8 @@ function drawBall(ball, frameTime, elapsedTime) {
 
 //Now the UI
 var options = _('#options');
+
+options.style.maxHeight = (window.innerHeight-30) + 'px';
 
 //sync input[type="range"] with input[type="number"]
 __('#color-palette input[type="range"]', options).forEach(function(input, i) {
@@ -161,9 +165,9 @@ var add = _('tr:last-child', options);
 
 _('td:last-child', add).onclick = function() {
 	var clone = add.cloneNode(true);
-	//add/delete
+	//add/remove
 	var del = _('td:last-child', clone);
-	del.textContent = '-delete';
+	del.textContent = '-remove';
 	del.onclick = deleteThisBall;
 	//up/down arrow buttons
 	var first=_('td:first-child', clone);
@@ -172,6 +176,9 @@ _('td:last-child', add).onclick = function() {
 	
 	_('#balls tbody', options).insertBefore(clone, add);
 	_('td:first-child span', add).textContent = __('tr', options).length - 1;
+	
+	//autosave
+	save();
 }
 
 
@@ -180,8 +187,10 @@ function deleteThisBall() {
 	del.className = 'delete';
 	setTimeout(function() {
 		del.parentNode.removeChild(del);
+		save();
 		setTimeout(updateNumbers,130);
 	}, 230);
+	//autosave
 }
 
 function updateNumbers() {
@@ -268,6 +277,7 @@ function save() {
 }
 _('#fn-save',options).onclick=save;
 
+
 function restore() {
 	var palette = localStorage.getItem('palette');
 	if(palette) {
@@ -294,7 +304,7 @@ function restore() {
 		var clone = add.cloneNode(true);
 		//add/delete
 		var del = _('td:last-child', clone);
-		del.textContent = '-delete';
+		del.textContent = '-remove';
 		del.onclick = deleteThisBall;
 		//up/down arrow buttons
 		var first=_('td:first-child', clone);
@@ -313,11 +323,26 @@ function restore() {
 	   _('input[type="color"]',options).value = background;
 }
 restore();
+canvasContext.fillStyle=_('input[type="color"]',options).value;
+canvasContext.fillRect(0,0,canvas.width,canvas.height);
+
+var tutorial;
+if(localStorage.getItem('has-done-tutorial'))
+	tutorial=false;
+else {
+	tutorial=document.createElement('div');
+	tutorial.id = 'tutorial';
+	tutorial.textContent='Click here --or anywhere-- to start drawing';
+	document.body.appendChild(tutorial);
+}
 
 window.onclick = function(event) {
 	if(event.button!==0)
 		return;
-	if(event.target==canvas) {
+	if(event.target===canvas||event.target===tutorial) {
+		if(tutorial) {
+			setTimeout(_=>tutorial.textContent='Then click again to stop',100);
+		}
 		playing = !playing;
 		if(playing) {
 			options.className = 'delete';
@@ -332,18 +357,19 @@ window.onclick = function(event) {
 					'friction': inp[4]
 				});
 			});
-			ctrlZCanvas.width=canvas.width;
-			ctrlZCanvas.height=canvas.height;
-			ctrlZContext.drawImage(canvas,0,0);
+			saveCtrlZCopy();
 			currentContext = canvasContext;
 			requestAnimationFrame(initialize);
 			setTimeout(_=>options.style.display='none', 230);
 		} else {
 			options.style.display='block';
-			setTimeout(_=>options.className = '',0);
-			if(optionsWindow) {
-				optionsWindow.focus();
+			if(tutorial) {
+				tutorial.className='delete';
+				setTimeout(_=>document.body.removeChild(tutorial),230);
+				tutorial=false;
+				localStorage.setItem('has-done-tutorial', 'true');
 			}
+			setTimeout(_=>options.className = '',0);
 		}
 	}
 }
@@ -408,6 +434,8 @@ function openInNewWindow() {
 	   "_blank",
 	   "width="+(rect.width+24)+",height="+rect.height+",\
 	   left=0,top=0,menubar=no,toolbar=no,location=yes,scrollbars=yes");
+	if(optionsWindow==null)
+		return;
 	optionsWindow.document.open();
 	optionsWindow.document.write(
 		'<!DOCTYPE HTML>\
@@ -447,16 +475,31 @@ function ctrlZEventHandler(event) {
 }
 
 function ctrlZ() {
-	canvasContext.clearRect(0,0,canvas.width,canvas.height);
-	canvasContext.drawImage(ctrlZCanvas,0,0);
+	currentContext.clearRect(0,0,canvas.width,canvas.height);
+	currentContext.drawImage(ctrlZCanvas,0,0);
+	if(canvas.width<resizeCanvas.width||canvas.height<resizeCanvas.height) {
+		resizeContext.drawImage(ctrlZCanvas,0,0);
+	}
 }
 
 _('#fn-fillBg').onclick = function() {
+	saveCtrlZCopy();
 	canvasContext.fillStyle = _('input[type="color"]',options).value;
 	canvasContext.fillRect(0,0,canvas.width,canvas.height);
+	//autosave
+	save();
 }
 
 //unused
 function clear(){
 	canvasContext.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function saveCtrlZCopy() {
+	ctrlZCanvas.width=resizeCanvas.width;
+	ctrlZCanvas.height=resizeCanvas.height;
+	if(canvas.width<resizeCanvas.width||canvas.height<resizeCanvas.height) {
+		ctrlZContext.drawImage(resizeCanvas,0,0);
+	}
+	ctrlZContext.drawImage(canvas,0,0);
 }
