@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Series dodecafónicas</title>
+	<link rel="stylesheet" href="series.css">
+	<link href="https://fonts.googleapis.com/css?family=Domine" rel="stylesheet">
+	</head>
+<body>
+	<h1>Series dodecafónicas</h1>
+	<div>
+		<canvas></canvas>
+	</div>
+	<img
+		class="diapasón click"
+		src="img/diapasón.png"
+		title="diapasón"
+		>
+	<div class="nueva click">Nueva serie</div>
+	<script>
+	Array.prototype.forEach.call(document.getElementsByClassName('click'), (elt, i) => {
+		elt.tabIndex = i;
+	});
+	</script>
+	<script src="series.js"></script>
+</body>
+</html>
