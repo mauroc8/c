@@ -14,7 +14,7 @@ function crearSerie() {
 		if(octava&&
 		   última&&mínima&&máxima&&
 		   Math.abs(nota+12-última)<12&&
-		   nota+12-mínima<14) {
+		   nota+12-mínima<12) {
 			nota += 12;
 		} else if(!octava&&
 		          última&&mínima&&máxima&&
@@ -22,7 +22,7 @@ function crearSerie() {
 			nota += 12;
 		} else if(!octava&&
 		          última&&mínima&&máxima&&
-		          máxima-nota>14) {
+		          máxima-nota>12) {
 			nota += 12;
 		} else if(octava&&
 		          !última&&!mínima&&!máxima) {
@@ -56,7 +56,7 @@ window.onresize = () => {
 		if(ancho>=tamaño) {
 			if(canvas.width!=tamaño) {
 				canvas.width=tamaño;
-				transcribirSerie();
+				dibujarSerie();
 			}
 			break;
 		}
@@ -95,7 +95,7 @@ var notas = {
 		'la':8,
 		'si':10,
 		'do':11
-	}, doblesostenido: {
+	},/* doblesostenido: {
 		'si':1,
 		'do':2,
 		're':4,
@@ -111,7 +111,7 @@ var notas = {
 		'la':7,
 		'si':9,
 		'do':10
-	},
+	},*/
 	porDefecto: {
 		0:'do becuadro',
 		1:'do sostenido',
@@ -140,7 +140,8 @@ function traducirSerie(serie) {
 	resultado.push({
 		nombre: nombre,
 		alteración: alteración,
-		octava: octava
+		octava: octava,
+		num: num
 	});
 	
 	for(var i=1; i<serie.length; i++) {
@@ -155,7 +156,8 @@ function traducirSerie(serie) {
 		} else if(notas[alteración][nombreSugerido] == nota) {
 			nombre = nombreSugerido;
 		} else {
-			var alteraciones = 'becuadro,bemol,sostenido,doblesostenido,doblebemol'.split(',');
+			//var alteraciones = 'becuadro,bemol,sostenido,doblesostenido,doblebemol'.split(',');
+			var alteraciones = 'becuadro,bemol,sostenido'.split(',');
 			var notaEncontrada = false;
 			for(var j=0; j<alteraciones.length; j++) {
 				var alteraciónSugerida = alteraciones[j];
@@ -175,10 +177,39 @@ function traducirSerie(serie) {
 		resultado.push({
 			nombre: nombre,
 			alteración: alteración,
-			octava: octava
+			octava: octava,
+			num: num
 		});
 	}
 	return resultado;
+}
+
+function puntoEstáDentroDeRegión(punto, región) {
+	return punto.x > región.x && punto.x < región.x + región.width &&
+				 punto.y > región.y && punto.y < región.y + región.height;
+}
+
+var audio = new AudioContext();
+var volumen = audio.createGain();
+volumen.gain.value = 0.4;
+volumen.connect(audio.destination);
+function reproducirNota(num) {
+	var now = audio.currentTime;
+	var duración = 1;
+	var freq = 220 * Math.pow(2, (num - 9)/12);
+	
+	var envolvente = audio.createGain();
+	envolvente.gain.value = 1;
+	envolvente.gain.setValueAtTime(1, now);
+	envolvente.gain.linearRampToValueAtTime(0, now + duración);
+	envolvente.connect(volumen);
+	
+	var oscilador = audio.createOscillator();
+	oscilador.type = 'triangle';
+	oscilador.frequency.value = freq;
+	oscilador.connect(envolvente);
+	oscilador.start(now);
+	oscilador.stop(now + duración);
 }
 
 function calcularNombreDePróximaNota(diferenciaSemitonos, anterior) {
@@ -195,7 +226,7 @@ function calcularNombreDePróximaNota(diferenciaSemitonos, anterior) {
 	return notas[nuevaPos];
 }
 
-function transcribirSerie() {
+function dibujarSerie() {
 	var img;
 	if(canvas.width==780||canvas.width==420) {
 		if(img60)
@@ -203,7 +234,7 @@ function transcribirSerie() {
 		else
 			return cargarImágen('img/símbolos-60.png').then(img => {
 				img60 = img;
-				transcribirSerie();
+				dibujarSerie();
 			}).catch(err => console.log(err));
 	} else {
 		if(img40)
@@ -211,7 +242,7 @@ function transcribirSerie() {
 		else
 			return cargarImágen('img/símbolos-40.png').then(img => {
 				img40 = img;
-				transcribirSerie();
+				dibujarSerie();
 			}).catch(err => console.log(err));
 	}
 	var width = canvas.width;
@@ -232,22 +263,26 @@ function transcribirSerie() {
 		height=80;
 		pentagramas=3;
 	}
-	var yInicio, yLínea, xGrilla, paddingX, paddingY;
+	var yInicio, yLínea, xGrilla, paddingX, paddingY, anchoAlteración, alturaAlteración;
 	if(height==120) {
 		yInicio = 38;
 		yLínea = 14;
 		xGrilla = 60;
 		paddingX = 3;
 		paddingY = 10;
+		anchoAlteración = 16;
+		alturaAlteración = 48;
 	} else if(height==80) {
 		yInicio = 25;
 		yLínea = 9;
 		xGrilla = 40;
 		paddingX = 3;
 		paddingY = 6;
+		anchoAlteración = 11;
+		alturaAlteración = 32;
 	}
 	//Height (& clear)
-	canvas.height = height * pentagramas;
+	canvas.height = height * pentagramas + yLínea;
 	//Clave de Sol
 	$.drawImage(img,
 	            0,0,
@@ -281,6 +316,9 @@ function transcribirSerie() {
 	var líneaAdicionalArriba = yInicio - yLínea + 0.5;
 	var líneaAdicionalAbajo = yInicio + yLínea * 5 + 0.5;
 	var notas = 'do,re,mi,fa,sol,la,si'.split(',');
+	var ordenAlteraciones = ['bemol', 'becuadro', 'sostenido'];
+	var anchoNegrita = yLínea * 0.7;
+	var altoNegrita = yLínea * 0.4;
 	var i=0;
 	for(var p=0; p<pentagramas; p++) {
 		for(var n=0; n<notasPorPentagrama; n++) {
@@ -292,24 +330,74 @@ function transcribirSerie() {
 			//posición representa distancia desde el Fa de la 1era línea. Ej: el Do central tiene 10
 			var posición = 10 - notas.indexOf(nombre) - octava * 7;
 			var xAlteración = xGrilla + xGrilla * n + xGrilla/4;
-			var xNota = xAlteración + xGrilla/4;
-			var xFinNota = xNota + xGrilla/4;
+			var xNota = xAlteración + xGrilla/2;
 			var yNota = height * p + yInicio + yLínea/2 * posición;
 			//Dibujar línea adicional si hiciera falta
 			$.beginPath();
 			if(posición <= -2) {
 				$.moveTo(xAlteración, líneaAdicionalArriba + height * p);
-				$.lineTo(xFinNota, líneaAdicionalArriba + height * p);
+				$.lineTo(xNota, líneaAdicionalArriba + height * p);
 			} else if(posición >= 10) {
 				$.moveTo(xAlteración, líneaAdicionalAbajo + height * p);
-				$.lineTo(xFinNota, líneaAdicionalAbajo + height * p);
+				$.lineTo(xNota, líneaAdicionalAbajo + height * p);
 			}
 			$.stroke();
 			//Dibujar alteración
-			
+			$.drawImage(img,
+			            ordenAlteraciones.indexOf(alteración) * anchoAlteración, height,
+			            anchoAlteración, alturaAlteración,
+			            xAlteración, yNota - alturaAlteración/1.8,
+			            anchoAlteración, alturaAlteración);
+			//Dibujar negrita
+			$.beginPath();
+			$.ellipse(xNota, yNota,
+			          anchoNegrita, altoNegrita,//radii
+			          -45 * Math.PI/180, //rotación
+			          0, 6.28);
+			$.fill();
+		}
+	}
+	canvas.onclick = function(event) {
+		var rect = canvas.getBoundingClientRect();
+		var punto = {
+			x: event.clientX - rect.left,
+			y: event.clientY - rect.top
+		};
+		for(var p = 0; p < pentagramas; p++) {
+			for(var n=0; n<notasPorPentagrama; n++) {
+				var región = {
+					x: xGrilla + xGrilla * n + paddingX,
+					width: xGrilla - paddingX * 2,
+					y: height * p + yInicio - yLínea - paddingY,
+					height: yLínea * 6 + paddingY * 2
+				};
+				if(puntoEstáDentroDeRegión(punto, región)) {
+					reproducirNota(serie[n+p*notasPorPentagrama].num);
+					break;
+				}
+			}
 		}
 	}
 }
 
-var serie = traducirSerie(crearSerie());
+//botones
+document.querySelector('.nueva').onclick = function() {
+	serie = traducirSerie(crearSerie());
+	dibujarSerie();
+};
+document.querySelector('.diapasón').onclick = function() {
+	var now = audio.currentTime;
+	var duración = 4;
+	var envolvente = audio.createGain();
+	envolvente.gain.setValueAtTime(0.6, now);
+	envolvente.gain.linearRampToValueAtTime(0, now + duración);
+	envolvente.connect(volumen);
+	var oscilador = audio.createOscillator();
+	oscilador.frequency.value = 440;
+	oscilador.connect(envolvente);
+	oscilador.start(now);
+	oscilador.stop(now + duración);
+}
+//init
+var serie = traducirSerie(crearSerie())
 window.onresize();

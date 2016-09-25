@@ -1,8 +1,7 @@
 *{margin:0;padding:0;font:inherit;line-height:1em;border:0;outline:0;}
 body{max-width:200px;margin:0 auto;}
 h1{font-family:Domine;font-weight:bold;line-height:1.6em;}
-.click{opacity:.8;outline:1px dashed blue;cursor:pointer;}
-.click:hover,.click:focus{opacity:1;outline-color:blue;}
+.click{outline:1px dashed blue;cursor:pointer;}
 .diapasón{max-width:200px;}
 .nueva{font-family:Domine;font-style:oblique;line-height:1.2em;padding:.4em;margin-top:10px;}
 .diapasón,.nueva{float:left;clear:both;}
