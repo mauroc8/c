@@ -191,7 +191,7 @@ function puntoEstáDentroDeRegión(punto, región) {
 
 var audio = new AudioContext();
 var volumen = audio.createGain();
-volumen.gain.value = 0.4;
+volumen.gain.value = 1;
 volumen.connect(audio.destination);
 function reproducirNota(num) {
 	var now = audio.currentTime;
