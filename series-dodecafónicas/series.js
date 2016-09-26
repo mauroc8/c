@@ -325,7 +325,6 @@ function dibujarSerie() {
 	var ordenAlteraciones = ['bemol', 'becuadro', 'sostenido'];
 	var anchoNegrita = yLínea * 0.7;
 	var altoNegrita = yLínea * 0.4;
-	var notasYaUsadas = [];
 	var i=0;
 	for(var p=0; p<pentagramas; p++) {
 		for(var n=0; n<notasPorPentagrama; n++) {
@@ -359,17 +358,12 @@ function dibujarSerie() {
 			}
 			$.stroke();
 			//Dibujar alteración
-			if(alteración=='becuadro'&&notasYaUsadas.indexOf(nota)==-1) {
-				//no hace falta dibujar la alteración. Centramos la negrita
-			} else {
-				$.drawImage(img,
-				            ordenAlteraciones.indexOf(alteración) * anchoAlteración, height,
-				            anchoAlteración, alturaAlteración,
-				            xAlteración, yNota - alturaAlteración/1.8,
-				            anchoAlteración, alturaAlteración);
-			}
-			notasYaUsadas.push(nota);
-			//Dibujar negrita
+			$.drawImage(img,
+			            ordenAlteraciones.indexOf(alteración) * anchoAlteración, height,
+			            anchoAlteración, alturaAlteración,
+			            xAlteración, yNota - alturaAlteración/1.8,
+			            anchoAlteración, alturaAlteración);
+			//Negrita
 			$.beginPath();
 			$.ellipse(xNota, yNota,
 			          anchoNegrita, altoNegrita,//radii
