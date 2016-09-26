@@ -12,26 +12,26 @@ function crearSerie() {
 		var nota = notas[índice];
 		var octava = Math.floor(Math.random()*2);
 		if(octava&&
-		   última&&mínima&&máxima&&
+		   última!==undefined&&
 		   Math.abs(nota+12-última)<12&&
 		   nota+12-mínima<12) {
 			nota += 12;
 		} else if(!octava&&
-		          última&&mínima&&máxima&&
+		          última!==undefined&&
 		          Math.abs(nota-última)>12) {
 			nota += 12;
 		} else if(!octava&&
-		          última&&mínima&&máxima&&
+		          última!==undefined&&
 		          máxima-nota>12) {
 			nota += 12;
 		} else if(octava&&
-		          !última&&!mínima&&!máxima) {
+		          última===undefined) {
 			nota += 12;
 		}
 		serie.push(nota);
 		notas.splice(índice, 1);
-		mínima = mínima ? Math.min(mínima, nota) : nota;
-		máxima = máxima ? Math.max(máxima, nota) : nota;
+		mínima = mínima === undefined ? nota : Math.min(mínima, nota);
+		máxima = máxima === undefined ? nota : Math.max(máxima, nota);
 		última = nota;
 	}
 	return serie;
@@ -150,7 +150,10 @@ function traducirSerie(serie) {
 		octava = Math.floor(num/12);
 		var diferenciaSemitonos = num - serie[i-1];
 		var nombreSugerido = calcularNombreDePróximaNota(diferenciaSemitonos, nombre);
-		if(notas.becuadro[nombreSugerido] == nota) {
+		if(nombreSugerido==null) {
+				var str = notas.porDefecto[nota];
+				[nombre, alteración] = str.split(' ');
+		} else if(notas.becuadro[nombreSugerido] == nota) {
 			nombre = nombreSugerido;
 			alteración = 'becuadro';
 		} else if(notas[alteración][nombreSugerido] == nota) {
@@ -215,9 +218,12 @@ function reproducirNota(num) {
 function calcularNombreDePróximaNota(diferenciaSemitonos, anterior) {
 	var nombre = '';
 	var notas = 'do,re,mi,fa,sol,la,si'.split(',');
-	var traducciónDeDiferenciaSemitonos = {1:1,2:1,3:2,4:2,5:3,6:3,7:4,8:5,9:5,10:6,11:6};
+	var traducciónDeDiferenciaSemitonos = {2:1,3:2,4:2,5:3,7:4,8:5,9:5,10:6,11:6};
 	var absDifSt = Math.abs(diferenciaSemitonos);
 	var diferenciaInterválica = traducciónDeDiferenciaSemitonos[absDifSt];
+	if(diferenciaInterválica==undefined)
+		//no hay una interválica "preferida". Ej: 6 semitonos pueden hacer 4Aum o 5dism
+		return null;
 	if(diferenciaSemitonos < 0) diferenciaInterválica = -diferenciaInterválica;
 	var posiciónAnterior = notas.indexOf(anterior);
 	var nuevaPos = posiciónAnterior + diferenciaInterválica;
@@ -319,6 +325,7 @@ function dibujarSerie() {
 	var ordenAlteraciones = ['bemol', 'becuadro', 'sostenido'];
 	var anchoNegrita = yLínea * 0.7;
 	var altoNegrita = yLínea * 0.4;
+	var notasYaUsadas = [];
 	var i=0;
 	for(var p=0; p<pentagramas; p++) {
 		for(var n=0; n<notasPorPentagrama; n++) {
@@ -329,8 +336,17 @@ function dibujarSerie() {
 				alteración = nota.alteración;
 			//posición representa distancia desde el Fa de la 1era línea. Ej: el Do central tiene 10
 			var posición = 10 - notas.indexOf(nombre) - octava * 7;
-			var xAlteración = xGrilla + xGrilla * n + xGrilla/4;
-			var xNota = xAlteración + xGrilla/2;
+			//Casos especiales: Si# y Dob
+			if(nombre=='si'&&alteración=='sostenido') {
+				posición += 7;
+			} else if(nombre=='do'&&alteración=='bemol') {
+				posición -= 7;
+			}
+			var xAlteración = xGrilla + xGrilla * n + xGrilla/4 - paddingX;
+			var xNota = xAlteración + xGrilla/2 - paddingX;
+				//^ el hecho de que se le reste el paddingX no tiene razón de ser,
+				// simplemente funciona. En realidad, podría restársele cualquier otro número.
+				// Es un pequeño ajuste para que quede más centrado y juntito.
 			var yNota = height * p + yInicio + yLínea/2 * posición;
 			//Dibujar línea adicional si hiciera falta
 			$.beginPath();
@@ -343,11 +359,16 @@ function dibujarSerie() {
 			}
 			$.stroke();
 			//Dibujar alteración
-			$.drawImage(img,
-			            ordenAlteraciones.indexOf(alteración) * anchoAlteración, height,
-			            anchoAlteración, alturaAlteración,
-			            xAlteración, yNota - alturaAlteración/1.8,
-			            anchoAlteración, alturaAlteración);
+			if(alteración=='becuadro'&&notasYaUsadas.indexOf(nota)==-1) {
+				//no hace falta dibujar la alteración. Centramos la negrita
+			} else {
+				$.drawImage(img,
+				            ordenAlteraciones.indexOf(alteración) * anchoAlteración, height,
+				            anchoAlteración, alturaAlteración,
+				            xAlteración, yNota - alturaAlteración/1.8,
+				            anchoAlteración, alturaAlteración);
+			}
+			notasYaUsadas.push(nota);
 			//Dibujar negrita
 			$.beginPath();
 			$.ellipse(xNota, yNota,
