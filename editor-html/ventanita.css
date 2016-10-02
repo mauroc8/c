@@ -1,0 +1,25 @@
+*{margin:0;padding:0;box-sizing:inherit;}
+html, body{height:100%;box-sizing:border-box;}
+#modal{
+	position:absolute;
+	bottom:0;
+	left:50%;
+	width:400px;
+	margin-left:-200px;
+	padding:10px;
+	background-color:palegoldenrod;
+	transition:max-height .3s ease-in-out;
+	max-height:0;
+	overflow:auto;
+}
+#modal.open{max-height:40vh;}
+#modal h1{
+	font:bold 22px sans-serif;
+	display:inline-block;
+}
+#modal svg{float:right;cursor:pointer;}
+#modal button{margin:0;padding:2px;border:1px solid gray;background-color:lightgray;float:right;}
+#modal table{width:100%;border:1px solid gray;margin:2px 0;}
+#modal table td{font-style:italic;color:gray;min-width:20px;}
+#modal table td:focus{color:black;outline:0;}
+#modal table td:last-child{cursor:pointer;color:black;font-style:normal;font-weight:bold;}

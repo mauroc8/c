@@ -1,0 +1,155 @@
+*{margin:0;padding:0;box-sizing:inherit;font:inherit;}
+html, body{
+	height:100%;
+	box-sizing:border-box;
+}
+body {
+	font:16px 'PT Mono', monospace;
+	background-color:rgb(220, 215, 207);
+	border-left:5px solid #22190f;
+	padding:5px;
+}
+
+#edit-head{height:20%;}
+#edit-body,#edit-wysiwyg{height:calc(80% - 16px);}
+#status-bar{
+	height:16px;
+	line-height:16px;
+}
+
+/* edit-head */
+h2{
+	display:inline-block;
+	line-height:26px;
+}
+#file-tools,#file-tools .toolgroup{float:right;}
+#file-tools{height:26px;}
+.toolgroup button{
+	width:24px;
+	height:24px;
+	padding:2px;
+	background-color:lightgray;
+	border:0;
+	border-left:1px solid gray;
+	cursor:pointer;
+}
+.toolgroup button:hover{background-color:gray;}
+.toolgroup button:first-child{border-left-width:0;}
+.toolgroup{
+	height:25px;
+	border-radius:4px;
+	overflow:hidden;
+	border:1px solid gray;
+	margin-right:2px;
+	margin-bottom:1px;
+}
+#edit-head textarea, #edit-body textarea{
+	display:block;
+	width:100%;
+	height:calc(100% - 26px);
+	background-color:white;
+	border:1px solid black;
+	background-color:white;
+	border:1px solid black;
+	padding:4px;
+	tab-size:2;
+	-moz-tab-size:2;
+	-webkit-tab-size:2;
+	font-size:14px;
+}
+#file-tools input{background-color:#e9e9e9;line-height:20px;margin:3px;border:0;
+	transition:width .3s ease-in-out;}
+
+/* edit-body */
+.title{float:right;line-height:26px;}
+a{color:blue;text-decoration:underline;cursor:pointer;}
+
+/* edit-wysiwyg */
+#toolbar .toolgroup,#toolbar select{float:left;}
+/*#toolbar:after{content:'';width:0;height:0;clear:both;display:block;}*/
+#toolbar select{
+	height:25px;
+	border:1px solid gray;
+	border-radius:4px;
+	background-color:lightgray;
+	margin-right:2px;
+	font:12px Arial,sans-serif;
+	padding:2px;
+	margin-bottom:1px;
+}
+#toolbar select option{padding:2px;outline:0;border:0;}
+#toolbar select:focus{outline:0;background-color:white;}
+iframe{
+	display:block;
+	width:100%;
+	border:1px solid black;
+	background-color:white;
+	height:calc(100% - 52px);
+}
+
+/* head-right */
+.head-right #edit-head{
+	height:100%;
+	width:30%;
+	float:right;
+	border-left:4px solid lightgray;
+	padding-left:3px;
+}
+.head-right #edit-body,.head-right #edit-wysiwyg{
+	width:70%;
+	height:calc(100% - 16px);
+	padding-right:3px;
+}
+.head-right #status-bar{width:70%;}
+
+.head-right #file-tools{max-width:220px;}
+.head-right #file-tools input{width:100px;}
+.head-right iframe{
+	height:calc(100% - 78px);
+}
+#change-head{opacity:.5;}
+#change-head:hover{opacity:1;}
+#change-head img{transform:rotate(90deg);transition:transform .3s ease-in-out;}
+.head-right #change-head img{transform:rotate(0deg);}
+.head-right .title{margin-right:10px;}
+/* media for head top */
+
+@media all and (max-width:900px) {
+	iframe{
+		height:calc(100% - 78px);
+	}
+}
+@media all and (max-width:500px) {
+	iframe{
+		height:calc(100% - 104px);
+	}
+}
+@media all and (max-width:450px) {
+	#file-tools{max-width:200px;}
+	#file-tools input{width:100px;}
+}
+
+/* media for head-right */
+@media all and (max-width:1203px) {
+	.head-right #file-tools{max-width:none;float:none;}
+	.head-right #file-tools input{width:125px;}
+	.head-right #edit-head textarea{height:calc(100% - 52px);}
+}
+
+@media all and (max-width:812px) {
+	.head-right #file-tools input{width:94px;}
+}
+
+@media all and (max-width:716px) {
+	.head-right iframe{height:calc(100% - 104px);}
+	.head-right #file-tools input{width:74px;}
+}
+
+@media all and (max-width:640px) {
+	.head-right #file-tools input{display:none;}
+}
+@media all and (max-width:536px) {
+	/* En ese espacio la vista vertical no cabe. Ocultamos el botón */
+	body:not(.head-right) #change-head{display:none;}
+	.head-right #change-head{opacity:1;border:1px dashed red;}
+}

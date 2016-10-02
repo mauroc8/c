@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Editor HTML</title>
+	<link href='https://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="editor-html.css">
+	<link rel="stylesheet" href="ventanita.css">
+</head>
+<body>
+	<div id="edit-head">
+		<h2>&lt;head&gt;&lt;/head&gt;<a id="change-head"><img src="icons/change-head.png"></a>
+		</h2>
+		<div id="file-tools">
+			<input id="filename" spellcheck=false value="">
+		</div>
+		<textarea spellcheck=false></textarea>
+	</div>
+	<div id="edit-body">
+		<h2>&lt;body&gt;&lt;/body&gt;</h2>
+		<div class='title'>HTML editor. <a>Toggle.</a></div>
+		<textarea spellcheck=false></textarea>
+	</div>
+	<div id="edit-wysiwyg">
+		<h2>&lt;body&gt;&lt;/body&gt;</h2>
+		<div class='title'>WYSIWYG editor. <a>Toggle.</a></div>
+		<div id="toolbar"></div>
+		<iframe src="about:blank"></iframe>
+	</div>
+	<div id="status-bar"></div>
+	
+	<script src="editor-html.js"></script>
+</body>
+</html>
