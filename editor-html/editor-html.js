@@ -458,10 +458,9 @@ function inspectTag(target) {
 		$('tr:last-child td').focus();
 	}
 	$('button',modal.contenido).onclick=function() {
-		for(var i=0; i<target.attributes.length; i++) {
-			var name = target.attributes[i].name;
-			target.removeAttribute(name);
-		}
+		while(target.attributes.length)
+			target.removeAttribute(target.attributes[0].name);
+		
 		$$('tr',modal.contenido).forEach(function(tr) {
 			var tds = $$('td',tr);
 			var name = tds[0].textContent;
