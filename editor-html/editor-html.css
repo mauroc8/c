@@ -153,3 +153,15 @@ iframe{
 	body:not(.head-right) #change-head{display:none;}
 	.head-right #change-head{opacity:1;border:1px dashed red;}
 }
+
+/* Ventanita modal */
+#modal{position:absolute;bottom:0;left:50%;width:400px;margin-left:-200px;padding:10px;
+	background-color:#eee8aa;transition:max-height .3s ease-in-out;max-height:0;overflow:auto}
+#modal.open{max-height:40vh}
+#modal h1{font:700 22px sans-serif;display:inline-block}
+#modal svg{float:right;cursor:pointer}
+#modal button{margin:0;padding:2px;border:1px solid gray;background-color:#d3d3d3;float:right;margin-left:2px;}
+#modal table{width:100%;border:1px solid gray;margin:2px 0}
+#modal table td{font-style:italic;color:gray;min-width:20px}
+#modal table td:focus{color:#000;outline:0}
+#modal table td:last-child{cursor:pointer;color:#000;font-style:normal;font-weight:700}

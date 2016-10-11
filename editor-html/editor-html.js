@@ -158,7 +158,7 @@ toolgroups.push([
 				if(contenido===null) return;
 				cmd('inserthtml', '<a href="'+url+'">'+contenido+'</a>');
 			} else {
-				var answ = prompt('Crear link:');
+				var answ = prompt('Crear link: URL:');
 				if(answ===null)
 					return;
 				cmd('createlink', answ);
@@ -168,7 +168,7 @@ toolgroups.push([
 		title: "Insertar imágen",
 		src: "insertimage.png",
 		command: function() {
-			var answ = prompt('Insertar imágen:');
+			var answ = prompt('Crear imágen: URL:');
 			if(answ===null)
 				return;
 			cmd('insertimage', answ);
@@ -206,10 +206,10 @@ $('button', hiliteColor.elt).onclick = function() {
 }
 toolgroups.push([
 	{
-		title: 'Nombre de fuente',
+		title: 'Cambiar fuente',
 		src: 'fontface.png',
 		command: function() {
-			var answ = prompt('Fuente:');
+			var answ = prompt('Nombre de fuente:');
 			if(answ===null) return;
 			cmd('fontname', answ);
 		}
@@ -217,7 +217,7 @@ toolgroups.push([
 		title: 'Tamaño de fuente',
 		src: 'fontsize.png',
 		command: function() {
-			var answ = prompt('Tamaño de fuente:');
+			var answ = prompt('Tamaño (1-7):');
 			if(answ===null) return;
 			if(answ==='' || isNaN(answ) || answ < 1 || answ > 7)
 				return alert('El tamaño de fuente tiene que ser un número entre 1 y 7.');
@@ -442,7 +442,7 @@ function inspectTag(target) {
 		'<h5>Atributos del elemento <b>&lt;'+target.tagName+'&gt;</b></h5>\n'+
 		'<table><tbody>'+contenidoTabla+'</tbody></table>'+
 		'<p><a>+agregar</a></p>'+
-		'<button>Aceptar</button>');
+		'<button>Aceptar</button><button>Aplicar</button>');
 	$$('.edit',modal.contenido).forEach(td => {
 		td.contentEditable = true;
 		td.spellcheck = false;
@@ -457,19 +457,22 @@ function inspectTag(target) {
 		$$('td:last-child',modal.contenido).forEach(td=>td.onclick=deleteParent);
 		$('tr:last-child td').focus();
 	}
-	$('button',modal.contenido).onclick=function() {
-		while(target.attributes.length)
-			target.removeAttribute(target.attributes[0].name);
-		
-		$$('tr',modal.contenido).forEach(function(tr) {
-			var tds = $$('td',tr);
-			var name = tds[0].textContent;
-			var val = tds[2].textContent;
-			if(name)
-				target.setAttribute(name,val);
-		});
-		modal.close();
-	}
+	$$('button',modal.contenido).forEach(function(button) {
+		button.onclick=function() {
+			while(target.attributes.length)
+				target.removeAttribute(target.attributes[0].name);
+			
+			$$('tr',modal.contenido).forEach(function(tr) {
+				var tds = $$('td',tr);
+				var name = tds[0].textContent;
+				var val = tds[2].textContent;
+				if(name)
+					target.setAttribute(name,val);
+			});
+			if(this.textContent=='Aceptar')
+				modal.close();
+		}
+	});
 	modal.open();
 }
 
@@ -718,11 +721,6 @@ function PreviewPage(content) {
 }
 
 //ventanita.js
-var estilosVentanita = '*{margin:0;padding:0;box-sizing:inherit}body,html{height:100%;box-sizing:border-box}#modal{position:absolute;bottom:0;left:50%;width:400px;margin-left:-200px;padding:10px;background-color:#eee8aa;transition:max-height .3s ease-in-out;max-height:0;overflow:auto}#modal.open{max-height:40vh}#modal h1{font:700 22px sans-serif;display:inline-block}#modal svg{float:right;cursor:pointer}#modal button{margin:0;padding:2px;border:1px solid gray;background-color:#d3d3d3;float:right}#modal table{width:100%;border:1px solid gray;margin:2px 0}#modal table td{font-style:italic;color:gray;min-width:20px}#modal table td:focus{color:#000;outline:0}#modal table td:last-child{cursor:pointer;color:#000;font-style:normal;font-weight:700}';
-var ventanita = document.createElement('style');
-ventanita.innerHTML = estilosVentanita;
-document.head.appendChild(ventanita);
-
 var ícono_cerrar = '<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
 function crearModal(título, contenido, abrir) {
 	var modal = elt('<div id="modal">');
