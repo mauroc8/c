@@ -10,7 +10,7 @@ var recursos = {
 		'mayor fundamental': [0, 4, 7],
 		'menor fundamental': [0, 3, 7],
 		'mayor 1°i': [0, 3, 8],
-		'menor 1°i': [0, 4, 8],
+		'menor 1°i': [0, 4, 9],
 		'menor 2°i': [0, 5, 8],
 		'mayor 2°i': [0, 5, 9]
 	},
