@@ -17,10 +17,10 @@ var recursos = {
 	'fundamentalesDeInversiones': {
 		'mayor fundamental': 0,
 		'menor fundamental': 0,
-		'mayor 1°i': 3,
-		'menor 1°i': 4,
-		'menor 2°i': 8,
-		'mayor 2°i': 9
+		'mayor 1°i': 8,
+		'menor 1°i': 9,
+		'menor 2°i': 5,
+		'mayor 2°i': 5
 	}
 }
 
