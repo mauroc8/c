@@ -143,7 +143,7 @@ function elt(str) {
 var Juego = {
 	"div_menú": elt('<div>'+
 	    '<div style="text-align:center;">'+
-		    '<object type="image/svg+xml" data="MJ.svg"></object>'+
+		    //'<object type="image/svg+xml" data="MJ.svg"></object>'+
 				'<h1 style="margin-top:0;"><i>MusiJuego</i></h1>'+
 			'</div>'+
 			'<div>'+
