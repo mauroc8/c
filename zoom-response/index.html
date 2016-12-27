@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Catching mouse event zoom issue</title>
+</head>
+<body>
+	<h3>Canvas:</h3>
+	<canvas style="border:1px solid gray;" width="300" height="200"></canvas>
+	<script type="text/javascript">
+		var canvas = document.querySelector("canvas"),
+			cx = canvas.getContext("2d");
+		
+		var boxes2 = [
+			{x: 10, y: 30, w: 50, h: 25},
+			{x: 52, y: 102, w: 60, h: 40},
+			{x: 250, y: 60, w: 40, h: 100}
+		];
+		
+		var colors = "red,green,blue".split(",");
+		
+		boxes2.forEach(function(box, i) {
+			
+			cx.fillStyle = colors[i];
+			
+			cx.fillRect(box.x, box.y, box.w, box.h);
+			
+			/* We create an empty div */
+			var div = document.createElement("div");
+			/* We get the position of the canvas */
+			var rect = canvas.getBoundingClientRect();
+			
+			div.style.position = "absolute";
+			div.style.left = (rect.left + box.x) + "px"; //Don't forget the pixels!!!
+			div.style.top = (rect.top + box.y) + "px";
+			div.style.width = box.w + "px";
+			div.style.height = box.h + "px";
+			
+			/* For demonstration purposes we display a border */
+			div.style.border = "1px dashed " + colors[i];
+			
+			div.onclick = function() {/* Your event handler */}
+			
+			document.body.appendChild(div);
+			
+		});
+		
+	</script>
+</body>
+</html>
