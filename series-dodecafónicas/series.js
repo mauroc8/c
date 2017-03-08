@@ -189,7 +189,7 @@ function traducirSerie(serie) {
 
 function puntoEstáDentroDeRegión(punto, región) {
 	return punto.x > región.x && punto.x < región.x + región.width &&
-				 punto.y > región.y && punto.y < región.y + región.height;
+		   punto.y > región.y && punto.y < región.y + región.height;
 }
 
 var audio = new AudioContext();

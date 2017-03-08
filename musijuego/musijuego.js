@@ -222,7 +222,7 @@ var Juego = {
 		Juego.repeticiones = _repeticionesPorNivel;
 		//
 		var nivel = Juego.obj_nivel, _child;
-		$('h3', Juego.div_niveles).textContent = Juego.puntaje() + '. ' + nivel.título;
+		$('h3', Juego.div_niveles).innerHTML = Juego.puntaje() + '. ' + nivel.título;
 		while(_child=$('#respuestas', Juego.div_niveles).firstChild)
 			$('#respuestas', Juego.div_niveles).removeChild(_child);
 		nivel.respuestas.forEach(function(resp, i) {
